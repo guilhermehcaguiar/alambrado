@@ -40,7 +40,7 @@ async function main(): Promise<void> {
 
   if (!isAdminSupabaseConfigured()) {
     throw new Error(
-      "Credenciais do Supabase ausentes. Configure NEXT_PUBLIC_SUPABASE_URL e SUPABASE_SERVICE_ROLE_KEY em .env.local antes de executar esta operação.",
+      "Credenciais do Supabase ausentes. Configure NEXT_PUBLIC_SUPABASE_URL e SUPABASE_SERVICE_ROLE_KEY em .env antes de executar esta operação.",
     );
   }
 

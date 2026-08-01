@@ -22,7 +22,7 @@ export function getAdminSupabaseConfig(): AdminSupabaseConfig {
 
   if (!supabaseUrl || !serviceRoleKey) {
     throw new Error(
-      "Credenciais administrativas ausentes. Configure NEXT_PUBLIC_SUPABASE_URL e SUPABASE_SERVICE_ROLE_KEY em .env.local (Service Role é usada somente por scripts locais).",
+      "Credenciais administrativas ausentes. Configure NEXT_PUBLIC_SUPABASE_URL e SUPABASE_SERVICE_ROLE_KEY em .env (Service Role é usada somente por scripts locais).",
     );
   }
 

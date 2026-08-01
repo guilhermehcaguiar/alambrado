@@ -373,7 +373,7 @@ async function main(): Promise<void> {
 
   if (mode !== "validate-only" && !isAdminSupabaseConfigured()) {
     throw new Error(
-      "Credenciais do Supabase ausentes. Configure NEXT_PUBLIC_SUPABASE_URL e SUPABASE_SERVICE_ROLE_KEY em .env.local antes de executar esta operação. Use --validate-only para validar o catálogo sem acessar o Supabase.",
+      "Credenciais do Supabase ausentes. Configure NEXT_PUBLIC_SUPABASE_URL e SUPABASE_SERVICE_ROLE_KEY em .env antes de executar esta operação. Use --validate-only para validar o catálogo sem acessar o Supabase.",
     );
   }
 

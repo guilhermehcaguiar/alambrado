@@ -25,4 +25,4 @@ npm run catalog:delete -- --slug=<slug> --confirm  # exclui um produto
 
 Documentação completa (local, não versionada): [`docs-ai/CATALOG_IMPORT.md`](docs-ai/CATALOG_IMPORT.md).
 
-> Requisitos: Node.js 24+, Supabase configurado e Service Role somente em `.env.local` para importação/dry-run. A validação (`catalog:validate`) funciona sem credenciais.
+> Requisitos: Node.js 24+, Supabase configurado e Service Role somente em `.env` para importação/dry-run. A validação (`catalog:validate`) funciona sem credenciais.
