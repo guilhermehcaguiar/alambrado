@@ -31,7 +31,7 @@ export default function Pagination({
       {currentPage > 1 ? (
         <Link
           href={buildHref(basePath, params, currentPage - 1)}
-          className="rounded-md border border-ash bg-graphite px-4 py-2 font-body text-sm font-semibold text-paper transition-colors duration-200 hover:border-brand/60 hover:text-brand"
+          className="inline-flex min-h-11 items-center rounded-md border border-ash bg-graphite px-4 py-2 font-body text-sm font-semibold text-paper transition-colors duration-200 hover:border-brand/60 hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
         >
           Anterior
         </Link>
@@ -44,7 +44,7 @@ export default function Pagination({
       {currentPage < totalPages ? (
         <Link
           href={buildHref(basePath, params, currentPage + 1)}
-          className="rounded-md border border-ash bg-graphite px-4 py-2 font-body text-sm font-semibold text-paper transition-colors duration-200 hover:border-brand/60 hover:text-brand"
+          className="inline-flex min-h-11 items-center rounded-md border border-ash bg-graphite px-4 py-2 font-body text-sm font-semibold text-paper transition-colors duration-200 hover:border-brand/60 hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
         >
           Próxima
         </Link>

@@ -36,7 +36,7 @@ export default function CartQuantityControl({
         onClick={() => onChange(clamp(quantity - 1, min, max))}
         disabled={quantity <= min}
         aria-label={`Diminuir quantidade de ${label}`}
-        className="flex h-9 w-9 items-center justify-center rounded-l-md text-paper transition-colors duration-200 hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:opacity-40"
+        className="flex h-11 w-11 items-center justify-center rounded-l-md text-paper transition-colors duration-200 hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:opacity-40"
       >
         <Minus className="size-4" aria-hidden="true" />
       </button>
@@ -48,14 +48,14 @@ export default function CartQuantityControl({
         value={quantity}
         aria-label={label}
         onChange={(event) => onChange(clamp(Number(event.target.value), min, max))}
-        className="h-9 w-12 bg-transparent text-center font-body text-sm font-semibold text-paper focus:outline-2 focus:outline-offset-2 focus:outline-brand [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+        className="h-11 w-14 bg-transparent text-center font-body text-sm font-semibold text-paper focus:outline-2 focus:outline-offset-2 focus:outline-brand [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
       />
       <button
         type="button"
         onClick={() => onChange(clamp(quantity + 1, min, max))}
         disabled={quantity >= max}
         aria-label={`Aumentar quantidade de ${label}`}
-        className="flex h-9 w-9 items-center justify-center rounded-r-md text-paper transition-colors duration-200 hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:opacity-40"
+        className="flex h-11 w-11 items-center justify-center rounded-r-md text-paper transition-colors duration-200 hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand disabled:cursor-not-allowed disabled:opacity-40"
       >
         <Plus className="size-4" aria-hidden="true" />
       </button>

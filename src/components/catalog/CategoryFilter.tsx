@@ -26,7 +26,7 @@ export default function CategoryFilter({ current }: CategoryFilterProps) {
             key={item.value}
             href={href}
             aria-current={isActive ? "page" : undefined}
-            className={`rounded-full border px-4 py-2 font-body text-sm font-semibold transition-colors duration-200 ${
+            className={`inline-flex min-h-11 items-center rounded-full border px-4 py-2 font-body text-sm font-semibold transition-colors duration-200 ${
               isActive
                 ? "border-brand bg-brand text-ink"
                 : "border-ash bg-graphite text-paper hover:border-brand/60"

@@ -46,10 +46,10 @@ coverage/
 public/products/
 
 # ---------------------------------------------------------
-# Pastas de processamento local
+# Pastas de processamento local (apenas na raiz do projeto)
 # ---------------------------------------------------------
-catalogo/
-catalogo-processado/
+/catalogo/
+/catalogo-processado/
 
 # ---------------------------------------------------------
 # Catálogo real (contém preços/metadados; use o modelo catalogo.example.csv)

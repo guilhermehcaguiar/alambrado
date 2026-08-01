@@ -4,8 +4,9 @@
   --color-brand: #00a238;
   --color-ink: #000000;
   --color-coal: #0a0a0a;
-  --color-graphite: #101010;
-  --color-ash: #1e1e1e;
+  --color-graphite: #111111;
+  --color-ash: #1a1a1a;
+  --color-gray: #707070;
   --color-mist: #d9d9d9;
   --color-paper: #ffffff;
 
@@ -19,8 +20,35 @@
   --foreground: #ffffff;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-inter), sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background-color: var(--color-brand);
+  color: var(--color-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

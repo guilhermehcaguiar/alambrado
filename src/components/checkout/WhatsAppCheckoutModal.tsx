@@ -259,7 +259,7 @@ export default function WhatsAppCheckoutModal({
               placeholder="Como podemos chamar você?"
               disabled={busy}
               aria-invalid={Boolean(errors.customerName)}
-              className="mt-2 w-full rounded-md border border-ash bg-coal px-3 py-2.5 font-body text-base text-paper placeholder:text-mist focus:outline-2 focus:outline-offset-2 focus:outline-brand disabled:cursor-not-allowed disabled:opacity-50"
+              className="mt-2 w-full min-h-11 rounded-md border border-ash bg-coal px-3 py-2.5 font-body text-base text-paper placeholder:text-gray focus:outline-2 focus:outline-offset-2 focus:outline-brand disabled:cursor-not-allowed disabled:opacity-50"
               {...register("customerName")}
             />
             {errors.customerName ? (

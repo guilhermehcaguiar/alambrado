@@ -14,7 +14,7 @@ export default async function CategoryProducts({ category }: CategoryProductsPro
     return (
       <CatalogEmptyState
         title="Disponível em breve"
-        message="Estamos preparando esta categoria."
+        message="Estamos preparando novos mantos para esta categoria."
       />
     );
   }

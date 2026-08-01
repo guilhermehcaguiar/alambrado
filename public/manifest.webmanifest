@@ -1,0 +1,9 @@
+{
+  "name": "ALAMBRADO",
+  "short_name": "ALAMBRADO",
+  "description": "ALAMBRADO — WEAR THE GAME. Camisas de futebol tailandesas 1:1.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000"
+}

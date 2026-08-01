@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Search } from "lucide-react";
+import { Search, X } from "lucide-react";
 import type { ProductSort } from "@/utils/catalog";
 
 const SORT_OPTIONS: { value: ProductSort; label: string }[] = [
@@ -65,8 +65,18 @@ export default function CatalogFilters({ defaultQuery, defaultSort }: CatalogFil
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           placeholder="Buscar por nome"
-          className="w-full rounded-md border border-ash bg-graphite py-2.5 pl-9 pr-3 font-body text-sm text-paper placeholder:text-mist focus:outline-2 focus:outline-offset-2 focus:outline-brand"
+          className="min-h-11 w-full rounded-md border border-ash bg-graphite py-2.5 pl-9 pr-10 font-body text-sm text-paper placeholder:text-gray focus:outline-2 focus:outline-offset-2 focus:outline-brand"
         />
+        {query ? (
+          <button
+            type="button"
+            onClick={() => setQuery("")}
+            aria-label="Limpar busca"
+            className="absolute right-2 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-md text-mist transition-colors duration-200 hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+          >
+            <X className="size-4" aria-hidden="true" />
+          </button>
+        ) : null}
       </label>
 
       <label>
@@ -74,7 +84,7 @@ export default function CatalogFilters({ defaultQuery, defaultSort }: CatalogFil
         <select
           value={defaultSort}
           onChange={(event) => updateParams({ sort: event.target.value })}
-          className="w-full rounded-md border border-ash bg-graphite px-3 py-2.5 font-body text-sm text-paper focus:outline-2 focus:outline-offset-2 focus:outline-brand sm:w-auto"
+          className="min-h-11 w-full rounded-md border border-ash bg-graphite px-3 py-2.5 font-body text-sm text-paper focus:outline-2 focus:outline-offset-2 focus:outline-brand sm:w-auto"
         >
           {SORT_OPTIONS.map((option) => (
             <option key={option.value} value={option.value}>
