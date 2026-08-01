@@ -1,8 +1,11 @@
-export type ProductCategory =
-  | "promocional-torcedor"
-  | "infantil"
-  | "jogador"
-  | "retro";
+export const PRODUCT_CATEGORIES = [
+  "promocional-torcedor",
+  "infantil",
+  "jogador",
+  "retro",
+] as const;
+
+export type ProductCategory = (typeof PRODUCT_CATEGORIES)[number];
 
 export const PRODUCT_SIZES = ["P", "M", "G", "GG", "XGG", "3XG", "4XG"] as const;
 

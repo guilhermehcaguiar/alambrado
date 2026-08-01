@@ -1,4 +1,12 @@
 import Image from "next/image";
+import { Truck, ShieldCheck, BadgeCheck, Sparkles } from "lucide-react";
+
+const IMPORTANT_INFO = [
+  { icon: Truck, label: "Entrega", value: "15 a 25 dias úteis" },
+  { icon: ShieldCheck, label: "Qualidade", value: "Tailandesa 1:1" },
+  { icon: BadgeCheck, label: "Patch", value: "Em breve" },
+  { icon: Sparkles, label: "Personalização", value: "Em breve" },
+] as const;
 
 export default function ProductGuideSection() {
   return (
@@ -7,11 +15,19 @@ export default function ProductGuideSection() {
         <h2 className="font-subtitle text-2xl font-semibold uppercase tracking-wider text-paper">
           Informações Importantes
         </h2>
-        <ul className="mt-4 max-w-3xl list-disc space-y-2 pl-5 font-body text-sm leading-relaxed text-mist">
-          <li>Produção em 15 a 25 dias úteis após a confirmação do pedido.</li>
-          <li>Camisas versão Torcedor, fiel ao modelo original.</li>
-          <li>Personalização e patch indisponíveis neste lançamento.</li>
-          <li>Consulte a tabela de medidas antes de escolher o tamanho.</li>
+        <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+          {IMPORTANT_INFO.map((item) => (
+            <li
+              key={item.label}
+              className="flex items-center gap-4 rounded-xl border border-ash bg-graphite px-5 py-4"
+            >
+              <item.icon className="size-6 shrink-0 text-brand" aria-hidden="true" />
+              <div>
+                <p className="font-body text-sm font-semibold text-paper">{item.label}</p>
+                <p className="font-body text-sm text-mist">{item.value}</p>
+              </div>
+            </li>
+          ))}
         </ul>
       </div>
 
