@@ -52,6 +52,11 @@ catalogo/
 catalogo-processado/
 
 # ---------------------------------------------------------
+# Catálogo real (contém preços/metadados; use o modelo catalogo.example.csv)
+# ---------------------------------------------------------
+/catalogo.csv
+
+# ---------------------------------------------------------
 # Documentação temporária / IA
 # ---------------------------------------------------------
 docs-ai/

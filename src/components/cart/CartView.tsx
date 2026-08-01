@@ -5,6 +5,7 @@ import { ShoppingBag } from "lucide-react";
 import { useCart } from "@/hooks/useCart";
 import CartItemCard from "@/components/cart/CartItemCard";
 import CartSummary from "@/components/cart/CartSummary";
+import ClearCartButton from "@/components/cart/ClearCartButton";
 import EmptyCart from "@/components/cart/EmptyCart";
 import WhatsAppCheckoutModal from "@/components/checkout/WhatsAppCheckoutModal";
 
@@ -35,7 +36,12 @@ export default function CartView() {
           <CartItemCard key={item.id} item={item} />
         ))}
       </ul>
-      <CartSummary onCheckout={() => setCheckoutOpen(true)} />
+      <div className="flex flex-col gap-3 lg:sticky lg:top-6">
+        <CartSummary onCheckout={() => setCheckoutOpen(true)} />
+        <div className="flex justify-end">
+          <ClearCartButton />
+        </div>
+      </div>
       {checkoutOpen ? (
         <WhatsAppCheckoutModal
           items={items}

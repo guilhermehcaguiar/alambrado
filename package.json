@@ -8,7 +8,12 @@
     "start": "next start",
     "lint": "eslint",
     "type-check": "tsc --noEmit",
-    "seed": "node scripts/seed.mts"
+    "seed": "node scripts/seed.mts",
+    "catalog:validate": "node --no-warnings --env-file-if-exists=.env.local --import ./scripts/import-hook.mjs scripts/import-catalog.mts --validate-only",
+    "catalog:dry-run": "node --no-warnings --env-file-if-exists=.env.local --import ./scripts/import-hook.mjs scripts/import-catalog.mts --dry-run",
+    "catalog:import": "node --no-warnings --env-file-if-exists=.env.local --import ./scripts/import-hook.mjs scripts/import-catalog.mts",
+    "catalog:import:overwrite": "node --no-warnings --env-file-if-exists=.env.local --import ./scripts/import-hook.mjs scripts/import-catalog.mts --overwrite",
+    "catalog:delete": "node --no-warnings --env-file-if-exists=.env.local --import ./scripts/import-hook.mjs scripts/delete-product.mts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.111.0",
