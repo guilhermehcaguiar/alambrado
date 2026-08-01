@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Bebas_Neue, Oswald, Inter } from "next/font/google";
 import { BRAND } from "@/config/brand";
-import HeaderPlaceholder from "@/components/layout/HeaderPlaceholder";
+import { Providers } from "@/app/providers";
+import Header from "@/components/layout/Header";
 import FooterPlaceholder from "@/components/layout/FooterPlaceholder";
 import "@/styles/globals.css";
 
@@ -41,9 +42,11 @@ export default function RootLayout({
       className={`${bebasNeue.variable} ${oswald.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-ink text-paper">
-        <HeaderPlaceholder />
-        <main className="flex-1">{children}</main>
-        <FooterPlaceholder />
+        <Providers>
+          <Header />
+          <main className="flex-1">{children}</main>
+          <FooterPlaceholder />
+        </Providers>
       </body>
     </html>
   );

@@ -1,3 +1,5 @@
+import type { ProductSize } from "@/types/product";
+
 export const PRICES = {
   promocionalTorcedor: 119.9,
   infantil: 149.9,
@@ -7,3 +9,18 @@ export const PRICES = {
   patch: 8.9,
   size3x4x: 19.9,
 } as const;
+
+export const PRICE_RULES = {
+  sizeSurchargeEnabled: false,
+  personalizacaoEnabled: false,
+  patchEnabled: false,
+} as const;
+
+const SPECIAL_SIZES: ProductSize[] = ["3XG", "4XG"];
+
+export function getSizeSurcharge(size: ProductSize): number {
+  if (PRICE_RULES.sizeSurchargeEnabled && SPECIAL_SIZES.includes(size)) {
+    return PRICES.size3x4x;
+  }
+  return 0;
+}

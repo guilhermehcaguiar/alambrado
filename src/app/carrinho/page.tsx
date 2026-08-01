@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import PlaceholderPage from "@/components/common/PlaceholderPage";
+import Container from "@/components/ui/Container";
+import CartView from "@/components/cart/CartView";
 
 export const metadata: Metadata = {
   title: "Carrinho",
@@ -7,9 +8,13 @@ export const metadata: Metadata = {
 
 export default function CarrinhoPage() {
   return (
-    <PlaceholderPage
-      title="Carrinho"
-      description="O carrinho funcionará no navegador com Context API e localStorage. Aqui o cliente revisa o pedido, informa o nome e finaliza a compra pelo WhatsApp."
-    />
+    <Container className="py-8 sm:py-12">
+      <h1 className="font-display text-4xl uppercase tracking-wide text-paper sm:text-5xl">
+        Seu carrinho
+      </h1>
+      <div className="mt-8">
+        <CartView />
+      </div>
+    </Container>
   );
 }

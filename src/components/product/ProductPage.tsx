@@ -1,10 +1,9 @@
 import type { Product } from "@/types/product";
 import Container from "@/components/ui/Container";
-import Button from "@/components/ui/Button";
 import ProductImage from "@/components/product/ProductImage";
 import ProductInfo from "@/components/product/ProductInfo";
 import ProductPrice from "@/components/product/ProductPrice";
-import ProductSelector from "@/components/product/ProductSelector";
+import ProductPurchase from "@/components/product/ProductPurchase";
 import ProductGuideSection from "@/components/product/ProductGuideSection";
 
 export default function ProductPage({ product }: { product: Product }) {
@@ -27,11 +26,7 @@ export default function ProductPage({ product }: { product: Product }) {
             {product.description}
           </p>
 
-          <ProductSelector />
-
-          <Button disabled size="lg">
-            Adicionar ao Carrinho
-          </Button>
+          <ProductPurchase product={product} />
         </div>
       </div>
 

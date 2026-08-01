@@ -1,6 +1,6 @@
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 
-type ButtonVariant = "primary" | "outline" | "ghost";
+type ButtonVariant = "primary" | "outline" | "ghost" | "whatsapp";
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children: ReactNode;
@@ -12,6 +12,7 @@ const variantClasses: Record<ButtonVariant, string> = {
   primary: "bg-brand text-ink hover:brightness-110",
   outline: "border border-paper/30 text-paper hover:border-brand hover:text-brand",
   ghost: "text-paper hover:text-brand",
+  whatsapp: "bg-brand text-paper hover:brightness-110",
 };
 
 const sizeClasses = {

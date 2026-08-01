@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { ShoppingBag } from "lucide-react";
 import { BRAND } from "@/config/brand";
 import Container from "@/components/ui/Container";
+import CartIcon from "@/components/cart/CartIcon";
 
 const NAV_LINKS = [
   { href: "/catalogo", label: "Catálogo" },
@@ -9,7 +9,7 @@ const NAV_LINKS = [
   { href: "/contato", label: "Contato" },
 ] as const;
 
-export default function HeaderPlaceholder() {
+export default function Header() {
   return (
     <header className="sticky top-0 z-40 border-b border-ash bg-ink/95 backdrop-blur">
       <Container className="flex h-16 items-center justify-between">
@@ -34,14 +34,7 @@ export default function HeaderPlaceholder() {
               </li>
             ))}
             <li>
-              <Link
-                href="/carrinho"
-                aria-label="Carrinho"
-                className="flex items-center gap-2 rounded-md border border-ash p-2 text-paper transition-colors duration-200 hover:border-brand hover:text-brand"
-              >
-                <ShoppingBag className="size-5" aria-hidden="true" />
-                <span className="sr-only">Carrinho</span>
-              </Link>
+              <CartIcon />
             </li>
           </ul>
         </nav>
