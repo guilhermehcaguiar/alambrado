@@ -64,6 +64,13 @@ public/products/
 docs-ai/
 
 # ---------------------------------------------------------
+# Aplicativo desktop (ALAMBRADO Catalog Manager)
+# NÃO versionar: ferramenta interna de gestão
+# ---------------------------------------------------------
+desktop/
+build.bat
+
+# ---------------------------------------------------------
 # Documentação de planejamento (não versionar)
 # ---------------------------------------------------------
 ARCHITECTURE.md

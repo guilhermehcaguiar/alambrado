@@ -14,7 +14,13 @@
     "catalog:import:overwrite": "node --no-warnings --env-file-if-exists=.env --import ./scripts/import-hook.mjs scripts/import-catalog.mts --overwrite",
     "catalog:generate": "node --no-warnings --import ./scripts/import-hook.mjs scripts/generate-catalog.mts",
     "catalog:generate:dry-run": "node --no-warnings --import ./scripts/import-hook.mjs scripts/generate-catalog.mts --dry-run",
-    "catalog:delete": "node --no-warnings --env-file-if-exists=.env --import ./scripts/import-hook.mjs scripts/delete-product.mts"
+    "catalog:delete": "node --no-warnings --env-file-if-exists=.env --import ./scripts/import-hook.mjs scripts/delete-product.mts",
+    "desktop:dev": "npm --prefix desktop/catalog-manager run dev",
+    "desktop:build": "npm --prefix desktop/catalog-manager run build",
+    "desktop:test": "npm --prefix desktop/catalog-manager run test",
+    "desktop:lint": "npm --prefix desktop/catalog-manager run lint",
+    "desktop:type-check": "npm --prefix desktop/catalog-manager run type-check",
+    "desktop:package": "npm --prefix desktop/catalog-manager run package"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.111.0",
