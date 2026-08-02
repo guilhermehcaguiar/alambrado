@@ -93,4 +93,3 @@ Thumbs.db
 # Certificados
 # ---------------------------------------------------------
 *.pem
-node_modules
