@@ -21,6 +21,8 @@ export const REQUIRED_CATALOG_COLUMNS = [
   "available",
 ] as const;
 
+export const OPTIONAL_CATALOG_COLUMNS = ["league"] as const;
+
 export const CATALOG_MAX_IMAGE_BYTES = 500_000;
 export const CATALOG_EXPECTED_WIDTH = 1200;
 export const CATALOG_EXPECTED_HEIGHT = 1200;
@@ -40,6 +42,7 @@ export type CatalogRow = {
   image_filename: string;
   featured: boolean;
   available: boolean;
+  league: string;
 };
 
 export type CatalogRowInput = Record<string, string>;
@@ -53,6 +56,7 @@ const catalogRowSchema = z.object({
   name: z.string().trim().min(1, "nome vazio").max(200, "nome muito longo"),
   club: z.string().trim().min(1, "clube vazio").max(120, "clube muito longo"),
   season: z.string().trim().max(80, "temporada muito longa"),
+  league: z.string().trim().max(80, "liga muito longa").optional(),
   category: z
     .string()
     .trim()
@@ -104,6 +108,7 @@ export function validateCatalogRow(input: CatalogRowInput): CatalogRowValidation
       price: Number(result.data.price),
       featured: result.data.featured.toLowerCase() === "true",
       available: result.data.available.toLowerCase() === "true",
+      league: result.data.league ?? "",
     },
   };
 }
@@ -292,6 +297,7 @@ export type ExistingProduct = {
   club: string;
   season: string;
   category: string;
+  league: string;
   description: string;
   price: number;
   featured: boolean;
@@ -304,6 +310,7 @@ const COMPARABLE_FIELDS: Array<{ label: string; read: (row: CatalogRow) => unkno
   { label: "club", read: (row) => row.club },
   { label: "season", read: (row) => row.season },
   { label: "category", read: (row) => row.category },
+  { label: "league", read: (row) => row.league },
   { label: "description", read: (row) => row.description },
   { label: "price", read: (row) => row.price },
   { label: "featured", read: (row) => row.featured },

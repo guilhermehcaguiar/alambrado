@@ -19,6 +19,9 @@ import {
   CATALOG_EXPECTED_WIDTH,
 } from "@/lib/validations/catalogImport";
 import { CLUB_ALIASES } from "@/config/club-aliases";
+import { CLUB_LEAGUES } from "@/config/club-leagues";
+import { COMPETITIONS } from "@/config/competitions";
+import { NATIONAL_TEAMS } from "@/config/national-teams";
 
 const ROOT = process.cwd();
 const SOURCE_DIR = path.join(ROOT, "camisas");
@@ -119,8 +122,28 @@ async function readPreviousState(): Promise<CatalogSyncState> {
   }
 }
 
-function resolveClubForFolder(sourceFolder: string): ClubResolution | null {
+function resolveClubForFolder(
+  sourceFolder: string,
+  context: { country: string },
+): ClubResolution | null {
   const key = normalizeClubKey(sourceFolder);
+  const competitionKey = normalizeClubKey(context.country);
+  const competition = Object.entries(COMPETITIONS).find(
+    ([entry]) => normalizeClubKey(entry) === competitionKey,
+  )?.[1];
+  if (competition) {
+    const nationalTeam = NATIONAL_TEAMS[key];
+    if (!nationalTeam) {
+      return null;
+    }
+    return {
+      normalizedKey: key,
+      displayName: nationalTeam.displayName,
+      slug: nationalTeam.slug,
+      league: competition,
+      status: "matched",
+    };
+  }
   const alias = CLUB_ALIASES[key];
   if (!alias) {
     return null;
@@ -129,6 +152,7 @@ function resolveClubForFolder(sourceFolder: string): ClubResolution | null {
     normalizedKey: key,
     displayName: alias.displayName,
     slug: alias.slug,
+    league: CLUB_LEAGUES[key] ?? "",
     status: "matched",
   };
 }

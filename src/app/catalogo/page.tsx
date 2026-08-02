@@ -3,11 +3,12 @@ import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import CategoryFilter from "@/components/catalog/CategoryFilter";
 import CatalogFilters from "@/components/catalog/CatalogFilters";
+import LeagueFilter from "@/components/catalog/LeagueFilter";
 import ProductGrid from "@/components/catalog/ProductGrid";
 import CatalogEmptyState from "@/components/catalog/CatalogEmptyState";
 import Pagination from "@/components/catalog/Pagination";
-import { PAGE_SIZE, searchProducts } from "@/services/products";
-import { parseCategory, parseSort } from "@/utils/catalog";
+import { PAGE_SIZE, getLeagues, searchProducts } from "@/services/products";
+import { parseCategory, parseLeague, parseSort } from "@/utils/catalog";
 
 export const metadata: Metadata = {
   title: "Catálogo",
@@ -28,21 +29,41 @@ export default async function CatalogoPage({
 }) {
   const params = await searchParams;
   const category = parseCategory(first(params.category));
+  const league = parseLeague(first(params.league));
   const query = first(params.q) ?? "";
   const sort = parseSort(first(params.sort));
   const page = Math.max(1, Number.parseInt(first(params.page) ?? "1", 10) || 1);
 
-  const { products, total } = await searchProducts({
-    category,
-    query,
-    sort,
-    page,
-    pageSize: PAGE_SIZE,
-  });
+  const [leagues, { products, total }] = await Promise.all([
+    getLeagues(),
+    searchProducts({
+      category,
+      league,
+      query,
+      sort,
+      page,
+      pageSize: PAGE_SIZE,
+    }),
+  ]);
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+
+  const urlParams = new URLSearchParams();
+  if (category !== "all") {
+    urlParams.set("category", category);
+  }
+  if (league) {
+    urlParams.set("league", league);
+  }
+  if (query) {
+    urlParams.set("q", query);
+  }
+  if (sort !== "newest") {
+    urlParams.set("sort", sort);
+  }
 
   const paginationParams: Record<string, string> = {
     ...(category !== "all" ? { category } : {}),
+    ...(league ? { league } : {}),
     ...(query ? { q: query } : {}),
     ...(sort !== "newest" ? { sort } : {}),
   };
@@ -50,6 +71,9 @@ export default async function CatalogoPage({
   const clearParams = new URLSearchParams();
   if (category !== "all") {
     clearParams.set("category", category);
+  }
+  if (league) {
+    clearParams.set("league", league);
   }
   if (sort !== "newest") {
     clearParams.set("sort", sort);
@@ -76,7 +100,8 @@ export default async function CatalogoPage({
           <h1 className="font-display text-4xl uppercase tracking-wide text-paper sm:text-5xl">
             Catálogo
           </h1>
-          <CategoryFilter current={category} />
+          <CategoryFilter current={category} params={urlParams} />
+          <LeagueFilter leagues={leagues} current={league} params={urlParams} />
           <CatalogFilters defaultQuery={query} defaultSort={sort} />
         </div>
 

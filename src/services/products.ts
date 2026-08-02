@@ -8,6 +8,7 @@ export const PAGE_SIZE = 9;
 
 export type ProductSearchParams = {
   category?: CategoryFilter;
+  league?: string;
   query?: string;
   sort?: ProductSort;
   page?: number;
@@ -28,6 +29,7 @@ const productSchema = z.object({
   category: z
     .enum(["torcedor", "promocional-torcedor", "infantil", "jogador", "retro"])
     .transform((value) => normalizeCategory(value) ?? "torcedor"),
+  league: z.string(),
   description: z.string(),
   price: z.coerce.number(),
   image_url: z.string(),
@@ -112,6 +114,7 @@ export const searchProducts = cache(
 
     const {
       category = "all",
+      league = "",
       query = "",
       sort = "newest",
       page = 1,
@@ -125,6 +128,10 @@ export const searchProducts = cache(
 
     if (category !== "all") {
       dbQuery = dbQuery.eq("category", category);
+    }
+
+    if (league) {
+      dbQuery = dbQuery.eq("league", league);
     }
 
     const trimmedQuery = query.trim().replace(/[(),]/g, "");
@@ -163,3 +170,22 @@ export const searchProducts = cache(
     };
   },
 );
+
+export const getLeagues = cache(async (): Promise<string[]> => {
+  if (!isSupabaseConfigured()) {
+    return [];
+  }
+
+  const { data, error } = await getSupabaseServerClient()
+    .from("products")
+    .select("league")
+    .eq("available", true)
+    .neq("league", "")
+    .order("league", { ascending: true });
+
+  if (error) {
+    return [];
+  }
+
+  return [...new Set((data ?? []).map((item) => item.league as string).filter(Boolean))];
+});

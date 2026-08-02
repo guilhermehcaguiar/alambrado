@@ -43,6 +43,7 @@ export interface Product {
   club: string;
   season: string;
   category: ProductCategory;
+  league: string;
   description: string;
   price: number;
   image_url: string;

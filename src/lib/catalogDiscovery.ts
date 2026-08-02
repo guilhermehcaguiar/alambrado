@@ -110,10 +110,18 @@ export type ClubResolution = {
   normalizedKey: string;
   displayName: string;
   slug: string;
+  league: string;
   status: ClubAliasStatus;
 };
 
-export type ClubResolver = (sourceFolder: string) => ClubResolution | null;
+export type ClubResolverContext = {
+  country: string;
+};
+
+export type ClubResolver = (
+  sourceFolder: string,
+  context: ClubResolverContext,
+) => ClubResolution | null;
 
 export function normalizeClubKey(input: string): string {
   return input
@@ -128,6 +136,7 @@ export function buildClubResolution(sourceFolder: string): ClubResolution {
     normalizedKey: normalizeClubKey(sourceFolder),
     displayName: titleCase(sourceFolder),
     slug: slugifySegment(sourceFolder),
+    league: "",
     status: "needs-review",
   };
 }
@@ -138,6 +147,7 @@ export type DiscoveredProduct = {
   category: CatalogCategory;
   club: string;
   country: string;
+  league: string;
   season: string;
   model: string;
   modelKey: string;
@@ -187,6 +197,7 @@ export function buildProduct(input: ProductBuildInput): DiscoveredProduct {
     category: input.category,
     club: clubDisplay,
     country: input.country,
+    league: input.clubResolution.league,
     season: seasonDisplay,
     model: modelLabel,
     modelKey: input.modelKey,
@@ -325,7 +336,8 @@ export async function scanCatalog(
           seasons.add(info.display);
         }
       }
-      const clubResolution = resolveClub?.(club) ?? buildClubResolution(club);
+      const clubResolution =
+        resolveClub?.(club, { country }) ?? buildClubResolution(club);
       if (clubResolution.status === "needs-review") {
         warnings.push(
           `Clube "${club}" sem alias — sugestão "${clubResolution.displayName}" (needs-review).`,
@@ -414,6 +426,7 @@ export const GENERATED_CSV_COLUMNS = [
   "image_filename",
   "featured",
   "available",
+  "league",
   "source_club_folder",
   "normalized_club_key",
   "club_slug",
@@ -435,6 +448,7 @@ export type GeneratedCsvRow = {
   image_filename: string;
   featured: boolean;
   available: boolean;
+  league: string;
   source_club_folder: string;
   normalized_club_key: string;
   club_slug: string;
@@ -457,6 +471,7 @@ export function toGeneratedCsvRow(product: DiscoveredProduct, available = true):
     image_filename: product.imageFilename,
     featured: product.featured,
     available,
+    league: product.league,
     source_club_folder: product.sourceClubFolder,
     normalized_club_key: product.normalizedClubKey,
     club_slug: product.clubSlug,

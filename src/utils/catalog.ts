@@ -27,3 +27,7 @@ export function parseSort(value: unknown): ProductSort {
   }
   return "newest";
 }
+
+export function parseLeague(value: unknown): string {
+  return typeof value === "string" && value.trim() ? value.trim() : "";
+}

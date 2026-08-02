@@ -4,9 +4,10 @@ import type { CategoryFilter as CategoryFilterValue } from "@/utils/catalog";
 
 type CategoryFilterProps = {
   current: CategoryFilterValue;
+  params: URLSearchParams;
 };
 
-export default function CategoryFilter({ current }: CategoryFilterProps) {
+export default function CategoryFilter({ current, params }: CategoryFilterProps) {
   const items: { value: CategoryFilterValue; label: string }[] = [
     { value: "all", label: "Todos" },
     ...PRODUCT_CATEGORIES.map((category) => ({
@@ -18,8 +19,15 @@ export default function CategoryFilter({ current }: CategoryFilterProps) {
   return (
     <div className="flex flex-wrap gap-2" role="group" aria-label="Filtrar por categoria">
       {items.map((item) => {
-        const href =
-          item.value === "all" ? "/catalogo" : `/catalogo?category=${item.value}`;
+        const nextParams = new URLSearchParams(params);
+        nextParams.delete("page");
+        if (item.value === "all") {
+          nextParams.delete("category");
+        } else {
+          nextParams.set("category", item.value);
+        }
+        const queryString = nextParams.toString();
+        const href = queryString ? `/catalogo?${queryString}` : "/catalogo";
         const isActive = current === item.value;
         return (
           <Link
