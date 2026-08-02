@@ -52,6 +52,8 @@ function isSupabaseConfigured(): boolean {
   );
 }
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 async function fetchAvailableProductsByIds(ids: string[]): Promise<Map<string, ResolvedProduct>> {
   if (!isSupabaseConfigured()) {
     throw new CheckoutError(
@@ -60,10 +62,15 @@ async function fetchAvailableProductsByIds(ids: string[]): Promise<Map<string, R
     );
   }
 
+  const validIds = ids.filter((id) => UUID_RE.test(id));
+  if (validIds.length === 0) {
+    return new Map();
+  }
+
   const { data, error } = await getSupabaseServerClient()
     .from("products")
     .select("id, name, slug, club, season, category, price")
-    .in("id", ids)
+    .in("id", validIds)
     .eq("available", true);
 
   if (error) {

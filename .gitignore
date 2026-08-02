@@ -50,6 +50,7 @@ public/products/
 # ---------------------------------------------------------
 /catalogo/
 /catalogo-processado/
+/camisas/
 
 # ---------------------------------------------------------
 # Catálogo real (contém preços/metadados; use o modelo catalogo.example.csv)
