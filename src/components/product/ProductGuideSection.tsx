@@ -35,7 +35,7 @@ export default function ProductGuideSection() {
         <h3 className="font-subtitle text-2xl font-semibold uppercase tracking-wider text-paper">
           Medidas e Cuidados
         </h3>
-        <div className="relative mt-4 aspect-[3/4] w-full max-w-3xl overflow-hidden rounded-xl border border-ash bg-paper">
+        <div className="relative mt-4 aspect-square w-full max-w-3xl overflow-hidden rounded-xl border border-ash bg-paper">
           <Image
             src="/guide/medidas-cuidados.png"
             alt="Tabela de medidas e cuidados com a camisa ALAMBRADO"
