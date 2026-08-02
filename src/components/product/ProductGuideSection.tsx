@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Truck, ShieldCheck, BadgeCheck, Sparkles } from "lucide-react";
 
 const IMPORTANT_INFO = [
-  { icon: Truck, label: "Entrega", value: "15 a 25 dias úteis" },
+  { icon: Truck, label: "Entrega", value: "20 a 30 dias úteis" },
   { icon: ShieldCheck, label: "Qualidade", value: "Tailandesa 1:1" },
   { icon: BadgeCheck, label: "Patch", value: "Em breve" },
   { icon: Sparkles, label: "Personalização", value: "Em breve" },
@@ -33,27 +33,12 @@ export default function ProductGuideSection() {
 
       <div>
         <h3 className="font-subtitle text-2xl font-semibold uppercase tracking-wider text-paper">
-          Tabela de Medidas
+          Medidas e Cuidados
         </h3>
         <div className="relative mt-4 aspect-[3/4] w-full max-w-3xl overflow-hidden rounded-xl border border-ash bg-paper">
           <Image
-            src="/guide/medidas.jpeg"
-            alt="Tabela de medidas da ALAMBRADO com as referências de tamanhos P, M, G, GG, XGG, 3XG e 4XG"
-            fill
-            className="object-contain"
-            sizes="(min-width: 768px) 48rem, 100vw"
-          />
-        </div>
-      </div>
-
-      <div>
-        <h3 className="font-subtitle text-2xl font-semibold uppercase tracking-wider text-paper">
-          Cuidados com sua Camisa
-        </h3>
-        <div className="relative mt-4 aspect-[3/4] w-full max-w-3xl overflow-hidden rounded-xl border border-ash bg-paper">
-          <Image
-            src="/guide/cuidados.jpeg"
-            alt="Cuidados com sua camisa ALAMBRADO: instruções de lavagem e conservação"
+            src="/guide/medidas-cuidados.png"
+            alt="Tabela de medidas e cuidados com a camisa ALAMBRADO"
             fill
             className="object-contain"
             sizes="(min-width: 768px) 48rem, 100vw"

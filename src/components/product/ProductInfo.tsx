@@ -11,7 +11,10 @@ type ProductInfoProps = {
 export default function ProductInfo({ name, category, club, season }: ProductInfoProps) {
   return (
     <div>
-      <Badge variant="green">{CATEGORY_LABELS[category]}</Badge>
+      <div className="flex flex-wrap items-center gap-2">
+        <Badge variant="green">{CATEGORY_LABELS[category]}</Badge>
+        <Badge variant="neutral">Promocional</Badge>
+      </div>
       <h1 className="mt-3 font-display text-4xl uppercase leading-none tracking-wide text-paper sm:text-5xl">
         {name}
       </h1>

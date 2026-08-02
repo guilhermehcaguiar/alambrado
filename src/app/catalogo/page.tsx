@@ -11,9 +11,9 @@ import { PAGE_SIZE, getLeagues, searchProducts } from "@/services/products";
 import { parseCategory, parseLeague, parseSort } from "@/utils/catalog";
 
 export const metadata: Metadata = {
-  title: "Catálogo",
+  title: "Catálogo Promocional",
   description:
-    "Explore as camisas de futebol tailandesas 1:1 da ALAMBRADO. Torcedor, Kit Infantil, Jogador e Retrô.",
+    "Explore o catálogo promocional de camisas de futebol tailandesas 1:1 da ALAMBRADO. Torcedor, Kit Infantil, Jogador e Retrô.",
 };
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
@@ -98,7 +98,7 @@ export default async function CatalogoPage({
       <Section className="space-y-8">
         <div className="space-y-6">
           <h1 className="font-display text-4xl uppercase tracking-wide text-paper sm:text-5xl">
-            Catálogo
+            Catálogo Promocional
           </h1>
           <CategoryFilter current={category} params={urlParams} />
           <LeagueFilter leagues={leagues} current={league} params={urlParams} />

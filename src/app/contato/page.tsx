@@ -8,7 +8,7 @@ import Badge from "@/components/ui/Badge";
 export const metadata: Metadata = {
   title: "Contato",
   description:
-    "Fale com a ALAMBRADO. Atendimento pelo WhatsApp durante o checkout, em Recife/PE. Pedidos entregues em 15 a 25 dias úteis.",
+    "Fale com a ALAMBRADO. Atendimento pelo WhatsApp durante o checkout, em Recife/PE. Pedidos entregues em 20 a 30 dias úteis.",
 };
 
 const CHANNELS = [
@@ -25,7 +25,7 @@ const CHANNELS = [
   {
     icon: Truck,
     title: "Prazo de entrega",
-    text: "Produção sob demanda e envio em 15 a 25 dias úteis.",
+    text: "Produção sob demanda e envio em 20 a 30 dias úteis.",
   },
 ] as const;
 

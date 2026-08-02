@@ -84,7 +84,6 @@ export function formatCheckoutMessage(
   lines.push(`Total de itens: ${totalItems}`);
   lines.push(`Total estimado: ${formatBRL(total)}`);
   lines.push("");
-  lines.push("Prazo estimado: 15 a 25 dias úteis.");
 
   return lines.join("\n");
 }

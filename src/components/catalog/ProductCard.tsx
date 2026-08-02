@@ -30,7 +30,10 @@ export default function ProductCard({ product }: ProductCardProps) {
       </div>
 
       <div className="flex flex-1 flex-col gap-2 p-4">
-        <Badge variant="green">{CATEGORY_LABELS[product.category]}</Badge>
+        <div className="flex flex-wrap items-center gap-2">
+          <Badge variant="green">{CATEGORY_LABELS[product.category]}</Badge>
+          <Badge variant="neutral">Promocional</Badge>
+        </div>
         <h3 className="line-clamp-2 font-display text-2xl uppercase leading-tight tracking-wide text-paper">
           {product.name}
         </h3>
