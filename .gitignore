@@ -56,6 +56,7 @@ public/products/
 # Catálogo real (contém preços/metadados; use o modelo catalogo.example.csv)
 # ---------------------------------------------------------
 /catalogo.csv
+/catalogo.generated.csv
 
 # ---------------------------------------------------------
 # Documentação temporária / IA

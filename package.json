@@ -12,6 +12,8 @@
     "catalog:dry-run": "node --no-warnings --env-file-if-exists=.env --import ./scripts/import-hook.mjs scripts/import-catalog.mts --dry-run",
     "catalog:import": "node --no-warnings --env-file-if-exists=.env --import ./scripts/import-hook.mjs scripts/import-catalog.mts",
     "catalog:import:overwrite": "node --no-warnings --env-file-if-exists=.env --import ./scripts/import-hook.mjs scripts/import-catalog.mts --overwrite",
+    "catalog:generate": "node --no-warnings --import ./scripts/import-hook.mjs scripts/generate-catalog.mts",
+    "catalog:generate:dry-run": "node --no-warnings --import ./scripts/import-hook.mjs scripts/generate-catalog.mts --dry-run",
     "catalog:delete": "node --no-warnings --env-file-if-exists=.env --import ./scripts/import-hook.mjs scripts/delete-product.mts"
   },
   "dependencies": {
@@ -30,6 +32,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.12",
+    "sharp": "^0.34.5",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
