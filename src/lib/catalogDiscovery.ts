@@ -6,7 +6,7 @@ import { CATEGORY_LABELS, type ProductCategory } from "@/types/product";
 
 export type CatalogCategory = ProductCategory;
 
-export const IMAGE_EXTENSIONS = ["jpg", "jpeg", "png"] as const;
+export const IMAGE_EXTENSIONS = ["jpg", "jpeg", "png", "webp"] as const;
 export type ImageExtension = (typeof IMAGE_EXTENSIONS)[number];
 
 export const CATEGORY_FOLDER_MAP: Record<string, CatalogCategory> = {
