@@ -1,7 +1,7 @@
 import { cache } from "react";
 import { z } from "zod";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
-import type { Product, ProductCategory } from "@/types/product";
+import { normalizeCategory, type Product, type ProductCategory } from "@/types/product";
 import type { CategoryFilter, ProductSort } from "@/utils/catalog";
 
 export const PAGE_SIZE = 9;
@@ -25,7 +25,9 @@ const productSchema = z.object({
   slug: z.string(),
   club: z.string(),
   season: z.string(),
-  category: z.enum(["promocional-torcedor", "infantil", "jogador", "retro"]),
+  category: z
+    .enum(["torcedor", "promocional-torcedor", "infantil", "jogador", "retro"])
+    .transform((value) => normalizeCategory(value) ?? "torcedor"),
   description: z.string(),
   price: z.coerce.number(),
   image_url: z.string(),

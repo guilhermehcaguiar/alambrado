@@ -10,7 +10,8 @@ export const IMAGE_EXTENSIONS = ["jpg", "jpeg", "png"] as const;
 export type ImageExtension = (typeof IMAGE_EXTENSIONS)[number];
 
 export const CATEGORY_FOLDER_MAP: Record<string, CatalogCategory> = {
-  torcedor: "promocional-torcedor",
+  torcedor: "torcedor",
+  "promocional-torcedor": "torcedor",
   jogador: "jogador",
   retro: "retro",
   infantil: "infantil",
@@ -25,10 +26,14 @@ const MODEL_LABELS: Record<string, string> = {
   homewomen: "Home Feminina",
   awaywomen: "Away Feminina",
   thirdwomen: "Third Feminina",
+  goalkeeperwomen: "Goleiro Feminina",
+  specialwomen: "Especial Feminina",
+  prematch: "Pré-Jogo",
+  training: "Treino",
 };
 
 const CATEGORY_PRICES: Record<CatalogCategory, number> = {
-  "promocional-torcedor": PRICES.promocionalTorcedor,
+  torcedor: PRICES.torcedor,
   infantil: PRICES.infantil,
   jogador: PRICES.jogador,
   retro: PRICES.retro,
@@ -99,6 +104,34 @@ export function resolveCategory(folderName: string): CatalogCategory | null {
   return CATEGORY_FOLDER_MAP[key] ?? null;
 }
 
+export type ClubAliasStatus = "matched" | "needs-review";
+
+export type ClubResolution = {
+  normalizedKey: string;
+  displayName: string;
+  slug: string;
+  status: ClubAliasStatus;
+};
+
+export type ClubResolver = (sourceFolder: string) => ClubResolution | null;
+
+export function normalizeClubKey(input: string): string {
+  return input
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]/g, "");
+}
+
+export function buildClubResolution(sourceFolder: string): ClubResolution {
+  return {
+    normalizedKey: normalizeClubKey(sourceFolder),
+    displayName: titleCase(sourceFolder),
+    slug: slugifySegment(sourceFolder),
+    status: "needs-review",
+  };
+}
+
 export type DiscoveredProduct = {
   slug: string;
   name: string;
@@ -116,12 +149,18 @@ export type DiscoveredProduct = {
   sourcePath: string;
   fileName: string;
   extension: ImageExtension;
+  sourceClubFolder: string;
+  normalizedClubKey: string;
+  clubSlug: string;
+  clubAliasStatus: ClubAliasStatus;
+  legacyCategory: string;
 };
 
 type ProductBuildInput = {
   category: CatalogCategory;
   country: string;
-  club: string;
+  sourceClubFolder: string;
+  clubResolution: ClubResolution;
   seasonToken: string | null;
   modelKey: string;
   sourcePath: string;
@@ -131,11 +170,12 @@ type ProductBuildInput = {
 
 export function buildProduct(input: ProductBuildInput): DiscoveredProduct {
   const seasonInfo = input.seasonToken ? parseSeasonToken(input.seasonToken) : null;
-  const clubSlug = slugifySegment(input.club);
   const seasonSlug = seasonInfo?.slugToken ?? "";
-  const slug = [clubSlug, input.modelKey, seasonSlug].filter(Boolean).join("-");
   const modelLabel = MODEL_LABELS[input.modelKey] ?? titleCase(input.modelKey);
-  const clubDisplay = titleCase(input.club);
+  const slug = [input.clubResolution.slug, slugifySegment(modelLabel), seasonSlug]
+    .filter(Boolean)
+    .join("-");
+  const clubDisplay = input.clubResolution.displayName;
   const seasonDisplay = seasonInfo?.display ?? "";
   const categoryLabel = CATEGORY_LABELS[input.category].toLowerCase();
   const seasonPart = seasonDisplay ? ` ${seasonDisplay}` : "";
@@ -158,6 +198,11 @@ export function buildProduct(input: ProductBuildInput): DiscoveredProduct {
     sourcePath: input.sourcePath,
     fileName: input.fileName,
     extension: input.extension,
+    sourceClubFolder: input.sourceClubFolder,
+    normalizedClubKey: input.clubResolution.normalizedKey,
+    clubSlug: input.clubResolution.slug,
+    clubAliasStatus: input.clubResolution.status,
+    legacyCategory: input.category === "torcedor" ? "promocional-torcedor" : input.category,
   };
 }
 
@@ -208,7 +253,10 @@ export type CatalogScanReport = {
   warnings: string[];
 };
 
-export async function scanCatalog(catalogRoot: string): Promise<CatalogScanReport> {
+export async function scanCatalog(
+  catalogRoot: string,
+  resolveClub?: ClubResolver,
+): Promise<CatalogScanReport> {
   const warnings: string[] = [];
   const products: DiscoveredProduct[] = [];
   const categories: string[] = [];
@@ -277,10 +325,17 @@ export async function scanCatalog(catalogRoot: string): Promise<CatalogScanRepor
           seasons.add(info.display);
         }
       }
+      const clubResolution = resolveClub?.(club) ?? buildClubResolution(club);
+      if (clubResolution.status === "needs-review") {
+        warnings.push(
+          `Clube "${club}" sem alias — sugestão "${clubResolution.displayName}" (needs-review).`,
+        );
+      }
       const product = buildProduct({
         category,
         country,
-        club,
+        sourceClubFolder: club,
+        clubResolution,
         seasonToken,
         modelKey,
         sourcePath: file.path,
@@ -359,6 +414,14 @@ export const GENERATED_CSV_COLUMNS = [
   "image_filename",
   "featured",
   "available",
+  "source_club_folder",
+  "normalized_club_key",
+  "club_slug",
+  "club_alias_status",
+  "country",
+  "model",
+  "source_path",
+  "legacy_category",
 ] as const;
 
 export type GeneratedCsvRow = {
@@ -372,6 +435,14 @@ export type GeneratedCsvRow = {
   image_filename: string;
   featured: boolean;
   available: boolean;
+  source_club_folder: string;
+  normalized_club_key: string;
+  club_slug: string;
+  club_alias_status: ClubAliasStatus;
+  country: string;
+  model: string;
+  source_path: string;
+  legacy_category: string;
 };
 
 export function toGeneratedCsvRow(product: DiscoveredProduct, available = true): GeneratedCsvRow {
@@ -386,6 +457,14 @@ export function toGeneratedCsvRow(product: DiscoveredProduct, available = true):
     image_filename: product.imageFilename,
     featured: product.featured,
     available,
+    source_club_folder: product.sourceClubFolder,
+    normalized_club_key: product.normalizedClubKey,
+    club_slug: product.clubSlug,
+    club_alias_status: product.clubAliasStatus,
+    country: product.country,
+    model: product.model,
+    source_path: product.sourcePath,
+    legacy_category: product.legacyCategory,
   };
 }
 

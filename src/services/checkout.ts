@@ -2,6 +2,7 @@ import { z } from "zod";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { getWhatsAppNumber, isWhatsAppConfigured } from "@/config/env";
 import { getSizeSurcharge } from "@/config/prices";
+import { normalizeCategory } from "@/types/product";
 import type {
   CheckoutResolvedItem,
   WhatsAppCheckoutInput,
@@ -40,7 +41,9 @@ const productCheckoutSchema = z.object({
   slug: z.string(),
   club: z.string(),
   season: z.string(),
-  category: z.enum(["promocional-torcedor", "infantil", "jogador", "retro"]),
+  category: z
+    .enum(["torcedor", "promocional-torcedor", "infantil", "jogador", "retro"])
+    .transform((value) => normalizeCategory(value) ?? "torcedor"),
   price: z.coerce.number(),
 });
 

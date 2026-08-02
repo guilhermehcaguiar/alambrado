@@ -11,7 +11,7 @@ const NAV_LINKS = [
 ] as const;
 
 const CATEGORY_LINKS = [
-  { href: "/catalogo/promocional-torcedor", label: "Promocional Torcedor" },
+  { href: "/catalogo/torcedor", label: "Torcedor" },
   { href: "/catalogo/infantil", label: "Kit Infantil" },
   { href: "/catalogo/jogador", label: "Jogador" },
   { href: "/catalogo/retro", label: "Retrô" },

@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     template: `%s | ${BRAND.name}`,
   },
   description:
-    `${BRAND.name} — ${BRAND.slogan} Camisas de futebol tailandesas 1:1. Catálogo promocional versão Torcedor com checkout pelo WhatsApp.`,
+    `${BRAND.name} — ${BRAND.slogan} Camisas de futebol tailandesas 1:1. Catálogo de camisas de torcedor com checkout pelo WhatsApp.`,
   manifest: "/manifest.webmanifest",
 };
 

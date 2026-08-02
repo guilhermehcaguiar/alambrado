@@ -31,6 +31,9 @@ export function mergeCheckoutItems(items: CheckoutItemInput[]): CheckoutItemInpu
 }
 
 export function formatCategoryLabel(category: string): string {
+  if (category === "promocional-torcedor") {
+    return CATEGORY_LABELS.torcedor;
+  }
   return CATEGORY_LABELS[category as keyof typeof CATEGORY_LABELS] ?? category;
 }
 

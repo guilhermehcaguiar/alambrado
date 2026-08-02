@@ -1,7 +1,12 @@
 import { z } from "zod";
-import { PRODUCT_CATEGORIES } from "@/types/product";
+import { normalizeCategory, PRODUCT_CATEGORIES, type ProductCategory } from "@/types/product";
 
 export const CATALOG_CATEGORIES = PRODUCT_CATEGORIES;
+
+export const CATALOG_ACCEPTED_CATEGORIES = [
+  ...PRODUCT_CATEGORIES,
+  "promocional-torcedor",
+] as const;
 
 export const REQUIRED_CATALOG_COLUMNS = [
   "slug",
@@ -51,7 +56,8 @@ const catalogRowSchema = z.object({
   category: z
     .string()
     .trim()
-    .pipe(z.enum(PRODUCT_CATEGORIES, "categoria inválida")),
+    .pipe(z.enum(CATALOG_ACCEPTED_CATEGORIES, "categoria inválida"))
+    .transform((value): ProductCategory => normalizeCategory(value) ?? "torcedor"),
   description: z
     .string()
     .trim()

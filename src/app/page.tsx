@@ -13,8 +13,8 @@ export const revalidate = 60;
 
 const CATEGORIES: { key: ProductCategory; description: string }[] = [
   {
-    key: "promocional-torcedor",
-    description: "Camisas promocionais versão Torcedor, com caimento fiel.",
+    key: "torcedor",
+    description: "Camisas versão Torcedor, com caimento fiel.",
   },
   {
     key: "infantil",
@@ -94,8 +94,8 @@ export default async function HomePage() {
             {BRAND.slogan}
           </p>
           <p className="mt-6 max-w-xl font-body text-base leading-relaxed text-mist">
-            O catálogo promocional versão Torcedor. Confiança, qualidade e desempenho
-            para quem vive o futebol de verdade.
+            O catálogo de camisas de torcedor. Confiança, qualidade e desempenho para quem
+            vive o futebol de verdade.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <Link

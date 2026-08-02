@@ -12,7 +12,7 @@ import { parseCategory, parseSort } from "@/utils/catalog";
 export const metadata: Metadata = {
   title: "Catálogo",
   description:
-    "Explore as camisas de futebol tailandesas 1:1 da ALAMBRADO. Promocional Torcedor, Kit Infantil, Jogador e Retrô.",
+    "Explore as camisas de futebol tailandesas 1:1 da ALAMBRADO. Torcedor, Kit Infantil, Jogador e Retrô.",
 };
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;

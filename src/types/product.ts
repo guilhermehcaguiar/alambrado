@@ -1,25 +1,36 @@
-export const PRODUCT_CATEGORIES = [
-  "promocional-torcedor",
-  "infantil",
-  "jogador",
-  "retro",
-] as const;
+export const PRODUCT_CATEGORIES = ["torcedor", "jogador", "retro", "infantil"] as const;
 
 export type ProductCategory = (typeof PRODUCT_CATEGORIES)[number];
+
+export const LEGACY_CATEGORIES = ["promocional-torcedor"] as const;
+
+export const CATEGORY_ALIASES = {
+  torcedor: "torcedor",
+  "promocional-torcedor": "torcedor",
+  jogador: "jogador",
+  retro: "retro",
+  infantil: "infantil",
+} as const;
+
+export type CategoryAliasKey = keyof typeof CATEGORY_ALIASES;
+
+export function normalizeCategory(value: string): ProductCategory | null {
+  return (CATEGORY_ALIASES[value as CategoryAliasKey] as ProductCategory | undefined) ?? null;
+}
 
 export const PRODUCT_SIZES = ["P", "M", "G", "GG", "XGG", "3XG", "4XG"] as const;
 
 export type ProductSize = (typeof PRODUCT_SIZES)[number];
 
 export const CATEGORY_LABELS: Record<ProductCategory, string> = {
-  "promocional-torcedor": "Promocional Torcedor",
-  infantil: "Kit Infantil",
+  torcedor: "Torcedor",
+  infantil: "Infantil",
   jogador: "Jogador",
   retro: "Retrô",
 };
 
 export const CATEGORY_STATUS: Record<ProductCategory, "active" | "coming-soon"> = {
-  "promocional-torcedor": "active",
+  torcedor: "active",
   infantil: "coming-soon",
   jogador: "coming-soon",
   retro: "coming-soon",
