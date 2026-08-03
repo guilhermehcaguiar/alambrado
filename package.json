@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "type-check": "tsc --noEmit",
+    "test:prices": "node --no-warnings --import ./scripts/import-hook.mjs --test scripts/test-prices.mts",
     "catalog:validate": "node --no-warnings --env-file-if-exists=.env --import ./scripts/import-hook.mjs scripts/import-catalog.mts --validate-only",
     "catalog:dry-run": "node --no-warnings --env-file-if-exists=.env --import ./scripts/import-hook.mjs scripts/import-catalog.mts --dry-run",
     "catalog:import": "node --no-warnings --env-file-if-exists=.env --import ./scripts/import-hook.mjs scripts/import-catalog.mts",

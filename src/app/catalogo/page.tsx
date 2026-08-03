@@ -100,11 +100,16 @@ export default async function CatalogoPage({
   return (
     <Container>
       <Section className="space-y-8">
-        <PageHeader
-          eyebrow="Catálogo"
-          title="Catálogo Promocional"
-          description="Explore as camisas de futebol tailandesas 1:1 da ALAMBRADO. Filtre por categoria, liga e encontre o seu manto."
-        />
+        <div className="relative overflow-hidden rounded-xl border border-ash bg-graphite p-8 sm:p-12">
+          <div className="absolute inset-0 bg-grid opacity-40 mask-fade-b" aria-hidden="true" />
+          <div className="relative">
+            <PageHeader
+              eyebrow="Catálogo"
+              title="Catálogo Promocional"
+              description="Explore as camisas de futebol tailandesas 1:1 da ALAMBRADO. Filtre por categoria, liga e encontre o seu manto."
+            />
+          </div>
+        </div>
 
         <div className="space-y-5 rounded-xl border border-ash bg-graphite p-5 sm:p-6">
           <CategoryFilter current={category} params={urlParams} />

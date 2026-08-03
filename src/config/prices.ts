@@ -5,22 +5,23 @@ export const PRICES = {
   infantil: 149.9,
   jogador: 169.9,
   retro: 199.9,
-  personalizacao: 24.9,
-  patch: 8.9,
-  size3x4x: 19.9,
 } as const;
 
 export const PRICE_RULES = {
-  sizeSurchargeEnabled: false,
-  personalizacaoEnabled: false,
-  patchEnabled: false,
+  oversizedSizes: ["3XG", "4XG"] as const,
+  oversizedSurcharge: 19.9,
 } as const;
 
-const SPECIAL_SIZES: ProductSize[] = ["3XG", "4XG"];
+const OVERSIZED_SIZES = PRICE_RULES.oversizedSizes as readonly ProductSize[];
+
+export function isOversizedSize(size: ProductSize): boolean {
+  return OVERSIZED_SIZES.includes(size);
+}
 
 export function getSizeSurcharge(size: ProductSize): number {
-  if (PRICE_RULES.sizeSurchargeEnabled && SPECIAL_SIZES.includes(size)) {
-    return PRICES.size3x4x;
-  }
-  return 0;
+  return isOversizedSize(size) ? PRICE_RULES.oversizedSurcharge : 0;
+}
+
+export function computePriceForSize(basePrice: number, size: ProductSize): number {
+  return basePrice + getSizeSurcharge(size);
 }

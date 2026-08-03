@@ -4,11 +4,14 @@ import { useState } from "react";
 import { Check } from "lucide-react";
 import Button from "@/components/ui/Button";
 import CartQuantityControl from "@/components/cart/CartQuantityControl";
+import ProductPrice from "@/components/product/ProductPrice";
 import ProductSelector from "@/components/product/ProductSelector";
+import { computePriceForSize, getSizeSurcharge } from "@/config/prices";
 import { useCart } from "@/hooks/useCart";
 import { MAX_CART_ITEM_QUANTITY, type CartItem } from "@/types/cart";
 import type { Product, ProductSize } from "@/types/product";
 import { computeUnitPrice, createCartItemId } from "@/utils/cart";
+import { formatBRL } from "@/utils/format";
 
 type ProductPurchaseProps = {
   product: Product;
@@ -20,6 +23,11 @@ export default function ProductPurchase({ product }: ProductPurchaseProps) {
   const [quantity, setQuantity] = useState(1);
   const [error, setError] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<string | null>(null);
+
+  const surcharge = selectedSize ? getSizeSurcharge(selectedSize) : 0;
+  const displayPrice = selectedSize
+    ? computePriceForSize(product.price, selectedSize)
+    : product.price;
 
   function handleAdd() {
     if (!selectedSize) {
@@ -51,43 +59,58 @@ export default function ProductPurchase({ product }: ProductPurchaseProps) {
   }
 
   return (
-    <div className="flex flex-col gap-4">
-      <ProductSelector
-        selectedSize={selectedSize}
-        onSelect={(size) => {
-          setSelectedSize(size);
-          setError(null);
-        }}
-      />
-
-      <div>
-        <p className="font-body text-sm font-semibold uppercase tracking-wider text-paper">
-          Quantidade
-        </p>
-        <CartQuantityControl
-          className="mt-3"
-          quantity={quantity}
-          onChange={setQuantity}
-          label="Quantidade"
-          max={MAX_CART_ITEM_QUANTITY}
-        />
-      </div>
-
-      <div aria-live="polite">
-        {error ? (
-          <p className="font-body text-sm font-semibold text-paper">{error}</p>
-        ) : null}
-        {feedback ? (
-          <p className="flex items-center gap-2 font-body text-sm font-semibold text-brand">
-            <Check className="size-4" aria-hidden="true" />
-            {feedback}
+    <div className="flex flex-col gap-6">
+      <div className="flex flex-col items-start gap-2">
+        <ProductPrice price={displayPrice} />
+        {surcharge > 0 ? (
+          <p className="rounded-md bg-amber-400/15 px-2.5 py-1 font-body text-sm font-semibold text-amber-300">
+            Acréscimo de {formatBRL(surcharge)} para o tamanho {selectedSize}.
           </p>
         ) : null}
       </div>
 
-      <Button onClick={handleAdd} size="lg" className="w-full sm:w-auto sm:min-w-56">
-        Adicionar ao Carrinho
-      </Button>
+      <p className="font-body text-base leading-relaxed text-mist">{product.description}</p>
+
+      <div className="rounded-xl border border-ash bg-graphite p-5 sm:p-6">
+        <div className="flex flex-col gap-4">
+          <ProductSelector
+            selectedSize={selectedSize}
+            onSelect={(size) => {
+              setSelectedSize(size);
+              setError(null);
+            }}
+          />
+
+          <div>
+            <p className="font-body text-sm font-semibold uppercase tracking-wider text-paper">
+              Quantidade
+            </p>
+            <CartQuantityControl
+              className="mt-3"
+              quantity={quantity}
+              onChange={setQuantity}
+              label="Quantidade"
+              max={MAX_CART_ITEM_QUANTITY}
+            />
+          </div>
+
+          <div aria-live="polite">
+            {error ? (
+              <p className="font-body text-sm font-semibold text-paper">{error}</p>
+            ) : null}
+            {feedback ? (
+              <p className="flex items-center gap-2 font-body text-sm font-semibold text-brand">
+                <Check className="size-4" aria-hidden="true" />
+                {feedback}
+              </p>
+            ) : null}
+          </div>
+
+          <Button onClick={handleAdd} size="lg" className="w-full sm:w-auto sm:min-w-56">
+            Adicionar ao Carrinho
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }

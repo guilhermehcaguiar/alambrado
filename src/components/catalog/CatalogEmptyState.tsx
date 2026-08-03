@@ -15,7 +15,9 @@ export default function CatalogEmptyState({
   actionLabel,
 }: CatalogEmptyStateProps) {
   return (
-    <div className="flex flex-col items-center gap-3 rounded-xl border border-dashed border-ash px-6 py-16 text-center">
+    <div className="relative overflow-hidden rounded-xl border border-dashed border-ash px-6 py-16 text-center">
+      <div className="absolute inset-0 bg-grid opacity-30" aria-hidden="true" />
+      <div className="relative flex flex-col items-center gap-3">
       <span className="flex size-16 items-center justify-center rounded-full bg-graphite text-gray">
         <Shirt className="size-7" aria-hidden="true" />
       </span>
@@ -31,6 +33,7 @@ export default function CatalogEmptyState({
           {actionLabel}
         </Link>
       ) : null}
+      </div>
     </div>
   );
 }

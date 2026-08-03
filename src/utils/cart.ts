@@ -1,13 +1,13 @@
 import { MAX_CART_ITEM_QUANTITY, type CartItem } from "@/types/cart";
 import type { ProductSize } from "@/types/product";
-import { getSizeSurcharge } from "@/config/prices";
+import { computePriceForSize } from "@/config/prices";
 
 export function createCartItemId(productId: string, size: ProductSize): string {
   return `${productId}:${size}`;
 }
 
 export function computeUnitPrice(price: number, size: ProductSize): number {
-  return price + getSizeSurcharge(size);
+  return computePriceForSize(price, size);
 }
 
 export function getItemSubtotal(item: CartItem): number {

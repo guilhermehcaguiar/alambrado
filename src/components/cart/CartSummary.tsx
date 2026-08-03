@@ -15,10 +15,12 @@ export default function CartSummary({ onCheckout }: CartSummaryProps) {
   const canCheckout = isHydrated && items.length > 0;
 
   return (
-    <Card className="border-ash bg-graphite">
-      <h2 className="font-subtitle text-xl font-semibold uppercase tracking-wider text-paper">
-        Resumo do pedido
-      </h2>
+    <Card className="relative overflow-hidden border-ash bg-graphite">
+      <div className="absolute inset-0 bg-fence opacity-20" aria-hidden="true" />
+      <div className="relative">
+        <h2 className="font-subtitle text-xl font-semibold uppercase tracking-wider text-paper">
+          Resumo do pedido
+        </h2>
 
       <dl className="mt-5 space-y-3 font-body text-sm">
         <div className="flex items-center justify-between gap-4">
@@ -54,6 +56,7 @@ export default function CartSummary({ onCheckout }: CartSummaryProps) {
         <MessageCircle className="size-5" aria-hidden="true" />
         Finalizar pelo WhatsApp
       </Button>
+      </div>
     </Card>
   );
 }

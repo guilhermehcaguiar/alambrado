@@ -4,8 +4,9 @@ import Link from "next/link";
 
 export default function GlobalError() {
   return (
-    <div className="flex min-h-full flex-1 items-center justify-center bg-ink px-4 py-24 text-paper">
-      <div className="flex flex-col items-center gap-6 text-center">
+    <div className="relative flex min-h-full flex-1 items-center justify-center bg-ink px-4 py-24 text-paper">
+      <div className="absolute inset-0 bg-grid opacity-40 mask-fade-b" aria-hidden="true" />
+      <div className="relative flex flex-col items-center gap-6 text-center">
         <p className="font-display text-7xl uppercase leading-none tracking-wide text-brand">
           500
         </p>

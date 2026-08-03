@@ -5,7 +5,6 @@ import Container from "@/components/ui/Container";
 import Divider from "@/components/ui/Divider";
 import ProductImage from "@/components/product/ProductImage";
 import ProductInfo from "@/components/product/ProductInfo";
-import ProductPrice from "@/components/product/ProductPrice";
 import ProductPurchase from "@/components/product/ProductPurchase";
 import ProductGuideSection from "@/components/product/ProductGuideSection";
 import { CATEGORY_LABELS } from "@/types/product";
@@ -63,15 +62,7 @@ export default function ProductPage({ product }: { product: Product }) {
             league={product.league}
           />
 
-          <ProductPrice price={product.price} />
-
-          <p className="font-body text-base leading-relaxed text-mist">
-            {product.description}
-          </p>
-
-          <div className="rounded-xl border border-ash bg-graphite p-5 sm:p-6">
-            <ProductPurchase product={product} />
-          </div>
+          <ProductPurchase product={product} />
         </div>
       </div>
 

@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { getWhatsAppNumber, isWhatsAppConfigured } from "@/config/env";
-import { getSizeSurcharge } from "@/config/prices";
+import { computePriceForSize } from "@/config/prices";
 import { normalizeCategory } from "@/types/product";
 import type {
   CheckoutResolvedItem,
@@ -109,7 +109,7 @@ export async function resolveWhatsAppCheckout(
       );
     }
 
-    const unitPrice = product.price + getSizeSurcharge(item.size);
+    const unitPrice = computePriceForSize(product.price, item.size);
 
     return {
       productId: product.id,

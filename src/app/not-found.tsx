@@ -4,7 +4,9 @@ import Container from "@/components/ui/Container";
 export default function NotFound() {
   return (
     <Container className="py-24 sm:py-32">
-      <div className="flex flex-col items-center gap-6 text-center">
+      <div className="relative">
+        <div className="absolute inset-0 bg-grid opacity-40 mask-fade-b" aria-hidden="true" />
+        <div className="relative flex flex-col items-center gap-6 text-center">
         <p className="font-display text-7xl uppercase leading-none tracking-wide text-brand sm:text-8xl">
           404
         </p>
@@ -21,6 +23,7 @@ export default function NotFound() {
         >
           Ver catálogo
         </Link>
+      </div>
       </div>
     </Container>
   );
