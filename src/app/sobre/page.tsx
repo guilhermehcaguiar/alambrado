@@ -3,7 +3,9 @@ import Link from "next/link";
 import { BadgeCheck } from "lucide-react";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
-import Badge from "@/components/ui/Badge";
+import PageHeader from "@/components/ui/PageHeader";
+import SectionHeading from "@/components/ui/SectionHeading";
+import Logo from "@/components/brand/Logo";
 
 export const metadata: Metadata = {
   title: "Sobre",
@@ -33,27 +35,24 @@ export default function SobrePage() {
   return (
     <Container>
       <Section className="space-y-12">
-        <div>
-          <Badge variant="green">Sobre a ALAMBRADO</Badge>
-          <h1 className="mt-4 font-display text-4xl uppercase tracking-wide text-paper sm:text-5xl">
-            Quem veste, sente.
-          </h1>
-          <p className="mt-4 max-w-2xl font-body text-base leading-relaxed text-mist">
-            A ALAMBRADO nasceu para quem vive o futebol. Trabalhamos com camisas de
-            futebol tailandesas 1:1, selecionadas e conferidas peça a peça para entregar
-            qualidade, confiança, modernidade e desempenho em cada manto.
-          </p>
+        <div className="relative overflow-hidden rounded-xl border border-ash bg-graphite p-8 sm:p-12">
+          <div className="absolute inset-0 bg-fence opacity-40 mask-fade-b" aria-hidden="true" />
+          <div className="relative">
+            <PageHeader
+              eyebrow="Sobre a ALAMBRADO"
+              title="Quem veste, sente."
+              description="A ALAMBRADO nasceu para quem vive o futebol. Trabalhamos com camisas de futebol tailandesas 1:1, selecionadas e conferidas peça a peça para entregar qualidade, confiança, modernidade e desempenho em cada manto."
+            />
+          </div>
         </div>
 
         <div>
-          <h2 className="font-subtitle text-2xl font-semibold uppercase tracking-wider text-paper">
-            Nossos valores
-          </h2>
-          <ul className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <SectionHeading eyebrow="Valores" title="Nossos valores" />
+          <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {VALUES.map((value) => (
               <li
                 key={value.title}
-                className="rounded-xl border border-ash bg-graphite p-6"
+                className="rounded-xl border border-ash bg-graphite p-6 transition-colors duration-200 hover:border-brand/60"
               >
                 <p className="font-subtitle text-base font-semibold uppercase tracking-wide text-paper">
                   {value.title}
@@ -67,32 +66,36 @@ export default function SobrePage() {
         </div>
 
         <div>
-          <h2 className="font-subtitle text-2xl font-semibold uppercase tracking-wider text-paper">
-            Qualidade que você confere
-          </h2>
-          <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+          <SectionHeading eyebrow="Qualidade" title="Qualidade que você confere" />
+          <ul className="mt-6 grid gap-3 sm:grid-cols-2">
             {QUALITY_POINTS.map((point) => (
               <li
                 key={point}
                 className="flex items-start gap-3 rounded-xl border border-ash bg-graphite px-5 py-4"
               >
-                <BadgeCheck className="size-5 shrink-0 text-brand" aria-hidden="true" />
+                <span className="flex size-6 shrink-0 items-center justify-center rounded-md bg-brand/15 text-brand">
+                  <BadgeCheck className="size-4" aria-hidden="true" />
+                </span>
                 <p className="font-body text-sm leading-relaxed text-mist">{point}</p>
               </li>
             ))}
           </ul>
         </div>
 
-        <div className="flex flex-col items-start gap-4 rounded-xl border border-ash bg-graphite p-8">
-          <h2 className="font-subtitle text-xl font-semibold uppercase tracking-wider text-paper">
-            Pronto para escolher seu manto?
-          </h2>
-          <p className="max-w-xl font-body text-sm leading-relaxed text-mist">
-            Confira o catálogo e encontre a camisa do seu time, do seu jeito.
-          </p>
+        <div className="relative flex flex-col items-start gap-4 overflow-hidden rounded-xl border border-ash bg-graphite p-8 sm:flex-row sm:items-center sm:justify-between">
+          <div className="absolute inset-0 bg-fence opacity-30" aria-hidden="true" />
+          <div className="relative">
+            <Logo className="h-8 w-auto" />
+            <h2 className="mt-3 font-subtitle text-xl font-semibold uppercase tracking-wider text-paper">
+              Pronto para escolher seu manto?
+            </h2>
+            <p className="mt-2 max-w-xl font-body text-sm leading-relaxed text-mist">
+              Confira o catálogo e encontre a camisa do seu time, do seu jeito.
+            </p>
+          </div>
           <Link
             href="/catalogo"
-            className="inline-flex min-h-11 items-center justify-center rounded-md bg-brand px-8 py-4 font-body text-base font-semibold text-ink transition-colors duration-200 hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+            className="relative inline-flex min-h-11 items-center justify-center rounded-md bg-brand px-8 py-4 font-body text-base font-semibold text-ink transition-colors duration-200 hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
           >
             Ver catálogo
           </Link>

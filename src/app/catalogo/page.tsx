@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
+import PageHeader from "@/components/ui/PageHeader";
 import CategoryFilter from "@/components/catalog/CategoryFilter";
 import CatalogFilters from "@/components/catalog/CatalogFilters";
 import LeagueFilter from "@/components/catalog/LeagueFilter";
@@ -99,13 +100,18 @@ export default async function CatalogoPage({
   return (
     <Container>
       <Section className="space-y-8">
-        <div className="space-y-6">
-          <h1 className="font-display text-4xl uppercase tracking-wide text-paper sm:text-5xl">
-            Catálogo Promocional
-          </h1>
+        <PageHeader
+          eyebrow="Catálogo"
+          title="Catálogo Promocional"
+          description="Explore as camisas de futebol tailandesas 1:1 da ALAMBRADO. Filtre por categoria, liga e encontre o seu manto."
+        />
+
+        <div className="space-y-5 rounded-xl border border-ash bg-graphite p-5 sm:p-6">
           <CategoryFilter current={category} params={urlParams} />
           <LeagueFilter leagues={leagues} current={league} params={urlParams} />
-          <CatalogFilters defaultQuery={query} defaultSort={sort} />
+          <div className="border-t border-ash pt-5">
+            <CatalogFilters defaultQuery={query} defaultSort={sort} />
+          </div>
         </div>
 
         {products.length > 0 ? (

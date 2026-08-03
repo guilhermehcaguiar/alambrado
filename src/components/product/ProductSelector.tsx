@@ -25,7 +25,7 @@ export default function ProductSelector({ selectedSize, onSelect }: ProductSelec
               className={`min-h-11 rounded-md border py-2.5 font-body text-sm font-semibold transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand ${
                 isSelected
                   ? "border-brand bg-brand text-ink"
-                  : "border-ash bg-graphite text-paper hover:border-brand/60"
+                  : "border-ash bg-coal text-paper hover:border-brand/60 hover:text-brand"
               }`}
             >
               {size}

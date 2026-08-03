@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Truck, ShieldCheck, BadgeCheck, Sparkles } from "lucide-react";
+import SectionHeading from "@/components/ui/SectionHeading";
 
 const IMPORTANT_INFO = [
   { icon: Truck, label: "Entrega", value: "20 a 30 dias úteis" },
@@ -12,16 +13,19 @@ export default function ProductGuideSection() {
   return (
     <section className="mt-16 space-y-12" aria-label="Informações e cuidados">
       <div>
-        <h2 className="font-subtitle text-2xl font-semibold uppercase tracking-wider text-paper">
-          Informações Importantes
-        </h2>
-        <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+        <SectionHeading
+          eyebrow="Detalhes"
+          title="Informações Importantes"
+        />
+        <ul className="mt-6 grid gap-3 sm:grid-cols-2">
           {IMPORTANT_INFO.map((item) => (
             <li
               key={item.label}
-              className="flex items-center gap-4 rounded-xl border border-ash bg-graphite px-5 py-4"
+              className="flex items-center gap-4 rounded-xl border border-ash bg-graphite px-5 py-4 transition-colors duration-200 hover:border-brand/60"
             >
-              <item.icon className="size-6 shrink-0 text-brand" aria-hidden="true" />
+              <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-brand/15 text-brand">
+                <item.icon className="size-5" aria-hidden="true" />
+              </span>
               <div>
                 <p className="font-body text-sm font-semibold text-paper">{item.label}</p>
                 <p className="font-body text-sm text-mist">{item.value}</p>
@@ -32,10 +36,8 @@ export default function ProductGuideSection() {
       </div>
 
       <div>
-        <h3 className="font-subtitle text-2xl font-semibold uppercase tracking-wider text-paper">
-          Medidas e Cuidados
-        </h3>
-        <div className="relative mt-4 aspect-square w-full max-w-3xl overflow-hidden rounded-xl border border-ash bg-paper">
+        <SectionHeading eyebrow="Guia" title="Medidas e Cuidados" />
+        <div className="relative mt-6 aspect-square w-full max-w-3xl overflow-hidden rounded-xl border border-ash bg-paper">
           <Image
             src="/guide/medidas-cuidados.png"
             alt="Tabela de medidas e cuidados com a camisa ALAMBRADO"

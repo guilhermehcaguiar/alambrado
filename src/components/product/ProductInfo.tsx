@@ -6,14 +6,21 @@ type ProductInfoProps = {
   category: ProductCategory;
   club: string;
   season: string;
+  league?: string;
 };
 
-export default function ProductInfo({ name, category, club, season }: ProductInfoProps) {
+export default function ProductInfo({
+  name,
+  category,
+  club,
+  season,
+  league,
+}: ProductInfoProps) {
   return (
     <div>
       <div className="flex flex-wrap items-center gap-2">
         <Badge variant="green">{CATEGORY_LABELS[category]}</Badge>
-        <Badge variant="neutral">Promocional</Badge>
+        {league ? <Badge variant="neutral">{league}</Badge> : null}
       </div>
       <h1 className="mt-3 font-display text-4xl uppercase leading-none tracking-wide text-paper sm:text-5xl">
         {name}

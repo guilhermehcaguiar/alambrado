@@ -1,10 +1,12 @@
 import Link from "next/link";
 import Container from "@/components/ui/Container";
+import Logo from "@/components/brand/Logo";
 
 export default function NotFound() {
   return (
     <Container className="py-24 sm:py-32">
       <div className="flex flex-col items-center gap-6 text-center">
+        <Logo className="h-10 w-auto opacity-80" />
         <p className="font-display text-7xl uppercase leading-none tracking-wide text-brand sm:text-8xl">
           404
         </p>

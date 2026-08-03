@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 import type { Product } from "@/types/product";
 import Container from "@/components/ui/Container";
+import Divider from "@/components/ui/Divider";
 import ProductImage from "@/components/product/ProductImage";
 import ProductInfo from "@/components/product/ProductInfo";
 import ProductPrice from "@/components/product/ProductPrice";
@@ -59,6 +60,7 @@ export default function ProductPage({ product }: { product: Product }) {
             category={product.category}
             club={product.club}
             season={product.season}
+            league={product.league}
           />
 
           <ProductPrice price={product.price} />
@@ -67,9 +69,15 @@ export default function ProductPage({ product }: { product: Product }) {
             {product.description}
           </p>
 
-          <ProductPurchase product={product} />
+          <div className="rounded-xl border border-ash bg-graphite p-5 sm:p-6">
+            <ProductPurchase product={product} />
+          </div>
         </div>
       </div>
+
+      <Container className="px-0">
+        <Divider className="my-4" />
+      </Container>
 
       <ProductGuideSection />
     </Container>

@@ -1,6 +1,6 @@
 "use client";
 
-import { Truck } from "lucide-react";
+import { MessageCircle, Truck } from "lucide-react";
 import Card from "@/components/ui/Card";
 import Button from "@/components/ui/Button";
 import { useCart } from "@/hooks/useCart";
@@ -15,7 +15,7 @@ export default function CartSummary({ onCheckout }: CartSummaryProps) {
   const canCheckout = isHydrated && items.length > 0;
 
   return (
-    <Card>
+    <Card className="border-ash bg-graphite">
       <h2 className="font-subtitle text-xl font-semibold uppercase tracking-wider text-paper">
         Resumo do pedido
       </h2>
@@ -25,7 +25,7 @@ export default function CartSummary({ onCheckout }: CartSummaryProps) {
           <dt className="text-mist">Itens</dt>
           <dd className="font-semibold text-paper">{totalItems}</dd>
         </div>
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center justify-between gap-4 border-t border-ash pt-3">
           <dt className="text-mist">Subtotal</dt>
           <dd className="font-display text-2xl tracking-wide text-brand">
             {formatBRL(subtotal)}
@@ -51,6 +51,7 @@ export default function CartSummary({ onCheckout }: CartSummaryProps) {
         disabled={!canCheckout}
         onClick={onCheckout}
       >
+        <MessageCircle className="size-5" aria-hidden="true" />
         Finalizar pelo WhatsApp
       </Button>
     </Card>

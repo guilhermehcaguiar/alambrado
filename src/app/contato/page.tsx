@@ -3,7 +3,8 @@ import Link from "next/link";
 import { Headset, MapPin, Truck } from "lucide-react";
 import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
-import Badge from "@/components/ui/Badge";
+import PageHeader from "@/components/ui/PageHeader";
+import Logo from "@/components/brand/Logo";
 
 export const metadata: Metadata = {
   title: "Contato",
@@ -36,25 +37,21 @@ export default function ContatoPage() {
   return (
     <Container>
       <Section className="space-y-10">
-        <div>
-          <Badge variant="green">Contato</Badge>
-          <h1 className="mt-4 font-display text-4xl uppercase tracking-wide text-paper sm:text-5xl">
-            Fale com a ALAMBRADO
-          </h1>
-          <p className="mt-4 max-w-2xl font-body text-base leading-relaxed text-mist">
-            Dúvidas sobre medidas, pedidos ou prazos? O nosso atendimento é próximo e
-            direto pelo WhatsApp. Adicione os produtos ao carrinho e finalize o pedido
-            para iniciar a conversa.
-          </p>
-        </div>
+        <PageHeader
+          eyebrow="Contato"
+          title="Fale com a ALAMBRADO"
+          description="Dúvidas sobre medidas, pedidos ou prazos? O nosso atendimento é próximo e direto pelo WhatsApp. Adicione os produtos ao carrinho e finalize o pedido para iniciar a conversa."
+        />
 
         <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {CHANNELS.map((channel) => (
             <li
               key={channel.title}
-              className="flex flex-col gap-4 rounded-xl border border-ash bg-graphite p-6"
+              className="flex flex-col gap-4 rounded-xl border border-ash bg-graphite p-6 transition-colors duration-200 hover:border-brand/60"
             >
-              <channel.icon className="size-6 shrink-0 text-brand" aria-hidden="true" />
+              <span className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-brand/15 text-brand">
+                <channel.icon className="size-5" aria-hidden="true" />
+              </span>
               <p className="font-subtitle text-base font-semibold uppercase tracking-wide text-paper">
                 {channel.title}
               </p>
@@ -65,17 +62,21 @@ export default function ContatoPage() {
           ))}
         </ul>
 
-        <div className="flex flex-col items-start gap-4 rounded-xl border border-ash bg-graphite p-8">
-          <h2 className="font-subtitle text-xl font-semibold uppercase tracking-wider text-paper">
-            Começar um pedido
-          </h2>
-          <p className="max-w-xl font-body text-sm leading-relaxed text-mist">
-            Escolha sua camisa no catálogo e adicione ao carrinho para finalizar pelo
-            WhatsApp.
-          </p>
+        <div className="relative flex flex-col items-start gap-4 overflow-hidden rounded-xl border border-ash bg-graphite p-8 sm:flex-row sm:items-center sm:justify-between">
+          <div className="absolute inset-0 bg-fence opacity-30" aria-hidden="true" />
+          <div className="relative">
+            <Logo className="h-8 w-auto" />
+            <h2 className="mt-3 font-subtitle text-xl font-semibold uppercase tracking-wider text-paper">
+              Começar um pedido
+            </h2>
+            <p className="mt-2 max-w-xl font-body text-sm leading-relaxed text-mist">
+              Escolha sua camisa no catálogo e adicione ao carrinho para finalizar pelo
+              WhatsApp.
+            </p>
+          </div>
           <Link
             href="/catalogo"
-            className="inline-flex min-h-11 items-center justify-center rounded-md bg-brand px-8 py-4 font-body text-base font-semibold text-ink transition-colors duration-200 hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+            className="relative inline-flex min-h-11 items-center justify-center rounded-md bg-brand px-8 py-4 font-body text-base font-semibold text-ink transition-colors duration-200 hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
           >
             Ver catálogo
           </Link>

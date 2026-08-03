@@ -19,7 +19,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             alt={`Camisa ${product.name}`}
             fill
             sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            className="object-contain transition-transform duration-200 group-hover:scale-[1.02]"
+            className="object-contain transition-transform duration-200 group-hover:scale-[1.03]"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-coal text-mist">
@@ -27,13 +27,12 @@ export default function ProductCard({ product }: ProductCardProps) {
             <span className="sr-only">Imagem do produto indisponível</span>
           </div>
         )}
+        <Badge variant="green" className="absolute left-3 top-3">
+          {CATEGORY_LABELS[product.category]}
+        </Badge>
       </div>
 
       <div className="flex flex-1 flex-col gap-2 p-4">
-        <div className="flex flex-wrap items-center gap-2">
-          <Badge variant="green">{CATEGORY_LABELS[product.category]}</Badge>
-          <Badge variant="neutral">Promocional</Badge>
-        </div>
         <h3 className="line-clamp-2 font-display text-2xl uppercase leading-tight tracking-wide text-paper">
           {product.name}
         </h3>

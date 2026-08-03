@@ -46,7 +46,9 @@ export default function CartItemCard({ item }: CartItemCardProps) {
               {item.club}
               {item.season ? ` · ${item.season}` : ""}
             </p>
-            <Badge className="mt-2">{CATEGORY_LABELS[item.category]}</Badge>
+            <Badge variant="neutral" className="mt-2">
+              {CATEGORY_LABELS[item.category]}
+            </Badge>
           </div>
           <button
             type="button"

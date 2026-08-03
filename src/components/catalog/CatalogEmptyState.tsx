@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Shirt } from "lucide-react";
+import Logo from "@/components/brand/Logo";
 
 type CatalogEmptyStateProps = {
   title: string;
@@ -16,7 +16,7 @@ export default function CatalogEmptyState({
 }: CatalogEmptyStateProps) {
   return (
     <div className="flex flex-col items-center gap-3 rounded-xl border border-dashed border-ash px-6 py-16 text-center">
-      <Shirt className="size-10 text-mist" aria-hidden="true" />
+      <Logo className="h-12 w-auto opacity-60" />
       <p className="font-subtitle text-xl font-semibold uppercase tracking-wide text-paper">
         {title}
       </p>
