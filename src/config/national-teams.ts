@@ -20,4 +20,13 @@ export const NATIONAL_TEAMS: Record<string, NationalTeam> = {
   mex: { displayName: "México", slug: "mexico" },
   estadosunidos: { displayName: "Estados Unidos", slug: "estados-unidos" },
   usa: { displayName: "Estados Unidos", slug: "estados-unidos" },
+  eua: { displayName: "Estados Unidos", slug: "estados-unidos" },
+  canada: { displayName: "Canadá", slug: "canada" },
+  colombia: { displayName: "Colômbia", slug: "colombia" },
+  equador: { displayName: "Equador", slug: "equador" },
+  holanda: { displayName: "Holanda", slug: "holanda" },
+  marrocos: { displayName: "Marrocos", slug: "marrocos" },
+  mexico: { displayName: "México", slug: "mexico" },
+  noruega: { displayName: "Noruega", slug: "noruega" },
+  paraguai: { displayName: "Paraguai", slug: "paraguai" },
 };

@@ -4,4 +4,5 @@ export const COMPETITIONS: Record<string, string> = {
   eurocopa: "Eurocopa",
   "copa-confederacoes": "Copa das Confederações",
   "copa-africa": "Copa Africana de Nações",
+  selecoes: "Seleções",
 };
