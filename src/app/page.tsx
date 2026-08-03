@@ -13,7 +13,6 @@ import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Divider from "@/components/ui/Divider";
-import Logo from "@/components/brand/Logo";
 import ProductGrid from "@/components/catalog/ProductGrid";
 import CatalogEmptyState from "@/components/catalog/CatalogEmptyState";
 import { CATEGORY_LABELS, CATEGORY_STATUS, type ProductCategory } from "@/types/product";
@@ -98,27 +97,26 @@ export default async function HomePage() {
         />
         <Container className="relative">
           <Section className="flex min-h-[80vh] flex-col items-start justify-center py-20">
-            <Logo className="h-14 w-auto opacity-90 sm:h-16" priority />
-            <h1 className="mt-6 font-display text-6xl uppercase leading-none tracking-wide text-paper sm:text-8xl lg:text-9xl">
+            <h1 className="font-display text-5xl uppercase leading-none tracking-wide text-paper sm:text-7xl lg:text-9xl">
               {BRAND.name}
             </h1>
             <p className="mt-3 font-subtitle text-lg uppercase tracking-[0.35em] text-brand sm:text-2xl">
               {BRAND.slogan}
             </p>
             <p className="mt-6 max-w-xl font-body text-base leading-relaxed text-mist sm:text-lg">
-              Camisas de futebol tailandesas 1:1. Catálogo de torcedor com qualidade,
+              Camisas de futebol tailandesas 1:1. Qualidade,
               confiança e desempenho para quem vive o jogo de verdade.
             </p>
-            <div className="mt-9 flex flex-wrap items-center gap-3">
+            <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3">
               <Link
                 href="/catalogo"
-                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md bg-brand px-8 py-4 font-body text-base font-semibold text-ink transition-colors duration-200 hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+                className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-md bg-brand px-8 py-4 font-body text-base font-semibold text-ink transition-colors duration-200 hover:brightness-110 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand sm:w-auto"
               >
                 Ver catálogo
               </Link>
               <Link
                 href="#como-comprar"
-                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-md border border-paper/30 px-6 py-3 font-body text-base font-semibold text-paper transition-colors duration-200 hover:border-brand hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+                className="inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-md border border-paper/30 px-6 py-3 font-body text-base font-semibold text-paper transition-colors duration-200 hover:border-brand hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand sm:w-auto"
               >
                 Como funciona
               </Link>
@@ -300,7 +298,6 @@ export default async function HomePage() {
         <div className="absolute inset-0 bg-fence opacity-30" aria-hidden="true" />
         <Container className="relative">
           <Section className="flex flex-col items-center gap-6 py-20 text-center sm:py-24">
-            <Logo className="h-12 w-auto opacity-90" />
             <h2 className="max-w-2xl font-display text-5xl uppercase leading-none tracking-wide text-paper sm:text-6xl">
               Seu próximo manto está aqui.
             </h2>

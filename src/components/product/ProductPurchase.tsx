@@ -85,7 +85,7 @@ export default function ProductPurchase({ product }: ProductPurchaseProps) {
         ) : null}
       </div>
 
-      <Button onClick={handleAdd} size="lg">
+      <Button onClick={handleAdd} size="lg" className="w-full sm:w-auto sm:min-w-56">
         Adicionar ao Carrinho
       </Button>
     </div>

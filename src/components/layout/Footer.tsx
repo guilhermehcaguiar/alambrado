@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { BRAND } from "@/config/brand";
 import Container from "@/components/ui/Container";
-import Logo from "@/components/brand/Logo";
 
 const NAV_LINKS = [
   { href: "/", label: "Início" },
@@ -28,17 +27,14 @@ export default function Footer() {
           <div className="max-w-xs">
             <Link
               href="/"
-              className="flex items-center gap-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+              className="focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
               aria-label={BRAND.name}
             >
-              <Logo className="h-9 w-auto" />
-              <span>
-                <span className="block font-display text-2xl leading-none tracking-wider text-paper">
-                  {BRAND.name}
-                </span>
-                <span className="block font-subtitle text-xs uppercase tracking-[0.3em] text-brand">
-                  {BRAND.slogan}
-                </span>
+              <span className="block font-display text-2xl leading-none tracking-wider text-paper">
+                {BRAND.name}
+              </span>
+              <span className="block font-subtitle text-xs uppercase tracking-[0.3em] text-brand">
+                {BRAND.slogan}
               </span>
             </Link>
             <p className="mt-4 font-body text-sm leading-relaxed text-mist">

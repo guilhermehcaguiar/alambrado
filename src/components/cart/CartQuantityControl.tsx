@@ -48,7 +48,7 @@ export default function CartQuantityControl({
         value={quantity}
         aria-label={label}
         onChange={(event) => onChange(clamp(Number(event.target.value), min, max))}
-        className="h-11 w-14 bg-transparent text-center font-body text-sm font-semibold text-paper focus:outline-2 focus:outline-offset-2 focus:outline-brand [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+        className="h-11 w-14 bg-transparent text-center font-body text-base font-semibold text-paper focus:outline-2 focus:outline-offset-2 focus:outline-brand [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
       />
       <button
         type="button"

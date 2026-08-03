@@ -66,7 +66,7 @@ export default function CartItemCard({ item }: CartItemCardProps) {
             <select
               value={item.size}
               onChange={(event) => updateSize(item.id, event.target.value as ProductSize)}
-              className="min-h-11 rounded-md border border-ash bg-graphite px-2.5 py-2 font-body text-sm text-paper focus:outline-2 focus:outline-offset-2 focus:outline-brand"
+              className="min-h-11 rounded-md border border-ash bg-graphite px-2.5 py-2 font-body text-base text-paper focus:outline-2 focus:outline-offset-2 focus:outline-brand"
             >
               {PRODUCT_SIZES.map((size) => (
                 <option key={size} value={size}>

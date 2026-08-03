@@ -68,9 +68,17 @@ export default function MobileMenu({ links }: MobileMenuProps) {
 
       {open ? (
         <div
+          className="fixed inset-0 z-40 sm:hidden"
+          onClick={() => setOpen(false)}
+          aria-hidden="true"
+        />
+      ) : null}
+
+      {open ? (
+        <div
           id="mobile-menu"
           ref={panelRef}
-          className="absolute inset-x-0 top-full border-b border-ash bg-ink px-4 pb-4 pt-2 sm:hidden"
+          className="absolute inset-x-0 top-full z-50 border-b border-ash bg-ink px-4 pb-4 pt-2 shadow-lg shadow-black/50 sm:hidden"
         >
           <nav aria-label="Navegação principal">
             <ul>

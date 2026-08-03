@@ -13,8 +13,8 @@ import { CATEGORY_LABELS } from "@/types/product";
 export default function ProductPage({ product }: { product: Product }) {
   return (
     <Container className="py-8 sm:py-12">
-      <nav aria-label="Trilha de navegação" className="mb-6">
-        <ol className="flex flex-wrap items-center gap-2 font-body text-sm text-mist">
+      <nav aria-label="Trilha de navegação" className="mb-6 -mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0">
+        <ol className="flex items-center gap-2 whitespace-nowrap font-body text-sm text-mist">
           <li>
             <Link href="/" className="transition-colors duration-200 hover:text-brand">
               Início

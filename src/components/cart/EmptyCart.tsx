@@ -1,10 +1,12 @@
 import Link from "next/link";
-import Logo from "@/components/brand/Logo";
+import { ShoppingBag } from "lucide-react";
 
 export default function EmptyCart() {
   return (
     <div className="flex flex-col items-center gap-4 rounded-xl border border-dashed border-ash px-6 py-16 text-center">
-      <Logo className="h-12 w-auto opacity-60" />
+      <span className="flex size-16 items-center justify-center rounded-full bg-graphite text-gray">
+        <ShoppingBag className="size-7" aria-hidden="true" />
+      </span>
       <p className="font-subtitle text-2xl font-semibold uppercase tracking-wide text-paper">
         Seu carrinho está vazio.
       </p>

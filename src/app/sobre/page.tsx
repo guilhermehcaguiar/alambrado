@@ -5,7 +5,6 @@ import Container from "@/components/ui/Container";
 import Section from "@/components/ui/Section";
 import PageHeader from "@/components/ui/PageHeader";
 import SectionHeading from "@/components/ui/SectionHeading";
-import Logo from "@/components/brand/Logo";
 
 export const metadata: Metadata = {
   title: "Sobre",
@@ -85,8 +84,7 @@ export default function SobrePage() {
         <div className="relative flex flex-col items-start gap-4 overflow-hidden rounded-xl border border-ash bg-graphite p-8 sm:flex-row sm:items-center sm:justify-between">
           <div className="absolute inset-0 bg-fence opacity-30" aria-hidden="true" />
           <div className="relative">
-            <Logo className="h-8 w-auto" />
-            <h2 className="mt-3 font-subtitle text-xl font-semibold uppercase tracking-wider text-paper">
+            <h2 className="font-subtitle text-xl font-semibold uppercase tracking-wider text-paper">
               Pronto para escolher seu manto?
             </h2>
             <p className="mt-2 max-w-xl font-body text-sm leading-relaxed text-mist">

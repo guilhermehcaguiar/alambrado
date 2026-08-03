@@ -27,25 +27,26 @@ export default function ProductCard({ product }: ProductCardProps) {
             <span className="sr-only">Imagem do produto indisponível</span>
           </div>
         )}
-        <Badge variant="green" className="absolute left-3 top-3">
-          {CATEGORY_LABELS[product.category]}
-        </Badge>
+        <div className="absolute left-3 top-3 flex flex-col items-start gap-1.5">
+          <Badge variant="solid">{CATEGORY_LABELS[product.category]}</Badge>
+          <Badge variant="promo">Promocional</Badge>
+        </div>
       </div>
 
-      <div className="flex flex-1 flex-col gap-2 p-4">
-        <h3 className="line-clamp-2 font-display text-2xl uppercase leading-tight tracking-wide text-paper">
+      <div className="flex flex-1 flex-col gap-2 p-3 sm:p-4">
+        <h3 className="line-clamp-2 font-display text-xl uppercase leading-tight tracking-wide text-paper sm:text-2xl">
           {product.name}
         </h3>
-        <p className="font-body text-sm text-mist">
+        <p className="truncate font-body text-sm text-mist">
           {product.club}
           {product.season ? ` · ${product.season}` : ""}
         </p>
-        <p className="font-display text-2xl tracking-wide text-brand">
+        <p className="font-display text-xl tracking-wide text-brand sm:text-2xl">
           {formatBRL(product.price)}
         </p>
         <Link
           href={`/produto/${product.slug}`}
-          className="mt-2 inline-flex min-h-11 items-center justify-center rounded-md border border-brand/60 px-4 py-2 font-body text-sm font-semibold text-brand transition-colors duration-200 hover:bg-brand hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+          className="mt-2 inline-flex min-h-11 w-full items-center justify-center rounded-md border border-brand/60 px-4 py-2 font-body text-sm font-semibold text-brand transition-colors duration-200 hover:bg-brand hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
         >
           Ver produto
         </Link>

@@ -1,13 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import Logo from "@/components/brand/Logo";
 
 export default function GlobalError() {
   return (
     <div className="flex min-h-full flex-1 items-center justify-center bg-ink px-4 py-24 text-paper">
       <div className="flex flex-col items-center gap-6 text-center">
-        <Logo className="h-10 w-auto opacity-80" />
         <p className="font-display text-7xl uppercase leading-none tracking-wide text-brand">
           500
         </p>

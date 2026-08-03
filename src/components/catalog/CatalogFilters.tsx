@@ -65,7 +65,7 @@ export default function CatalogFilters({ defaultQuery, defaultSort }: CatalogFil
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           placeholder="Buscar por nome"
-          className="min-h-11 w-full rounded-md border border-ash bg-graphite py-2.5 pl-9 pr-10 font-body text-sm text-paper placeholder:text-gray focus:outline-2 focus:outline-offset-2 focus:outline-brand"
+          className="min-h-11 w-full rounded-md border border-ash bg-graphite py-2.5 pl-9 pr-10 font-body text-base text-paper placeholder:text-gray focus:outline-2 focus:outline-offset-2 focus:outline-brand"
         />
         {query ? (
           <button
@@ -84,7 +84,7 @@ export default function CatalogFilters({ defaultQuery, defaultSort }: CatalogFil
         <select
           value={defaultSort}
           onChange={(event) => updateParams({ sort: event.target.value })}
-          className="min-h-11 w-full rounded-md border border-ash bg-graphite px-3 py-2.5 font-body text-sm text-paper focus:outline-2 focus:outline-offset-2 focus:outline-brand sm:w-auto"
+          className="min-h-11 w-full rounded-md border border-ash bg-graphite px-3 py-2.5 font-body text-base text-paper focus:outline-2 focus:outline-offset-2 focus:outline-brand sm:w-auto"
         >
           {SORT_OPTIONS.map((option) => (
             <option key={option.value} value={option.value}>

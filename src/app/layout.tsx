@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Bebas_Neue, Oswald, Inter } from "next/font/google";
 import { BRAND } from "@/config/brand";
 import { getSiteUrl } from "@/config/site";
@@ -27,6 +27,12 @@ const inter = Inter({
   subsets: ["latin"],
   display: "swap",
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#000000",
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
@@ -58,6 +64,15 @@ export const metadata: Metadata = {
     title: `${BRAND.name} — ${BRAND.slogan}`,
     description:
       "Camisas de futebol tailandesas 1:1. Catálogo de camisas de torcedor com checkout pelo WhatsApp.",
+  },
+  icons: {
+    icon: [{ url: "/icon.png", sizes: "512x512", type: "image/png" }],
+    apple: [{ url: "/icon.png", sizes: "180x180", type: "image/png" }],
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: BRAND.name,
   },
 };
 
