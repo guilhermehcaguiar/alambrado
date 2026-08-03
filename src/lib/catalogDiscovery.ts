@@ -50,6 +50,7 @@ export function parseSeasonToken(token: string): SeasonInfo | null {
     display: `${a}/${b}`,
     slugToken: `${a}-${b}`,
   });
+  const year = (y: string): SeasonInfo => ({ display: y, slugToken: y });
   let match: RegExpMatchArray | null;
   match = value.match(/^(20\d\d)-(20\d\d)$/);
   if (match) return pair(match[1], match[2]);
@@ -57,12 +58,19 @@ export function parseSeasonToken(token: string): SeasonInfo | null {
   if (match) return pair(match[1], match[2]);
   match = value.match(/^(20\d\d)(20\d\d)$/);
   if (match) return pair(match[1], match[2]);
-  match = value.match(/^(20\d\d)$/);
-  if (match) return { display: match[1], slugToken: match[1] };
-  match = value.match(/^(\d{2})(\d{2})$/);
-  if (match) return pair(match[1], match[2]);
+  match = value.match(/^(\d{4})$/);
+  if (match) {
+    const numeric = Number(match[1]);
+    if (numeric >= 1900 && numeric <= 2099) {
+      return year(match[1]);
+    }
+    return pair(match[1].slice(0, 2), match[1].slice(2));
+  }
   match = value.match(/^(\d{2})$/);
-  if (match) return { display: `20${match[1]}`, slugToken: `20${match[1]}` };
+  if (match) {
+    const numeric = Number(match[1]);
+    return year(numeric >= 70 ? `19${match[1]}` : `20${match[1]}`);
+  }
   return null;
 }
 
