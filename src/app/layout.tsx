@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Bebas_Neue, Oswald, Inter } from "next/font/google";
 import { BRAND } from "@/config/brand";
+import { getSiteUrl } from "@/config/site";
 import { Providers } from "@/app/providers";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -28,6 +29,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(getSiteUrl()),
   title: {
     default: BRAND.name,
     template: `%s | ${BRAND.name}`,
@@ -35,6 +37,28 @@ export const metadata: Metadata = {
   description:
     `${BRAND.name} — ${BRAND.slogan} Camisas de futebol tailandesas 1:1. Catálogo de camisas de torcedor com checkout pelo WhatsApp.`,
   manifest: "/manifest.webmanifest",
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    siteName: BRAND.name,
+    title: `${BRAND.name} — ${BRAND.slogan}`,
+    description:
+      "Camisas de futebol tailandesas 1:1. Catálogo de camisas de torcedor com checkout pelo WhatsApp.",
+    url: getSiteUrl(),
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${BRAND.name} — ${BRAND.slogan}`,
+    description:
+      "Camisas de futebol tailandesas 1:1. Catálogo de camisas de torcedor com checkout pelo WhatsApp.",
+  },
 };
 
 export default function RootLayout({

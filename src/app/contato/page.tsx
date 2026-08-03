@@ -9,6 +9,9 @@ export const metadata: Metadata = {
   title: "Contato",
   description:
     "Fale com a ALAMBRADO. Atendimento pelo WhatsApp durante o checkout, em Recife/PE. Pedidos entregues em 20 a 30 dias úteis.",
+  alternates: {
+    canonical: "/contato",
+  },
 };
 
 const CHANNELS = [

@@ -4,6 +4,7 @@ import CartView from "@/components/cart/CartView";
 
 export const metadata: Metadata = {
   title: "Carrinho",
+  robots: { index: false, follow: false },
 };
 
 export default function CarrinhoPage() {

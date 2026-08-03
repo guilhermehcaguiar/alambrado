@@ -9,6 +9,9 @@ export const metadata: Metadata = {
   title: "Sobre",
   description:
     "A ALAMBRADO nasceu para quem vive o futebol. Camisas de futebol tailandesas 1:1, com qualidade, confiança e desempenho.",
+  alternates: {
+    canonical: "/sobre",
+  },
 };
 
 const VALUES = [

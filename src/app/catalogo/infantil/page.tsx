@@ -6,6 +6,9 @@ import { CATEGORY_LABELS } from "@/types/product";
 
 export const metadata: Metadata = {
   title: CATEGORY_LABELS.infantil,
+  alternates: {
+    canonical: "/catalogo/infantil",
+  },
 };
 
 export const revalidate = 60;

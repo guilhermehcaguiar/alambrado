@@ -14,6 +14,9 @@ export const metadata: Metadata = {
   title: "Catálogo Promocional",
   description:
     "Explore o catálogo promocional de camisas de futebol tailandesas 1:1 da ALAMBRADO. Torcedor, Kit Infantil, Jogador e Retrô.",
+  alternates: {
+    canonical: "/catalogo",
+  },
 };
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;

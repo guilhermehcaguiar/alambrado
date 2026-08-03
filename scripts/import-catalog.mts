@@ -481,14 +481,16 @@ async function main(): Promise<void> {
   const rowBySlug = new Map(validation.rows.map((r) => [r.row.slug, r.row]));
 
   if (mode === "dry-run") {
+    const dryRunTotals = { ...totals };
     for (const planned of plan) {
       logPlanned(planned);
+      dryRunTotals[planned.status]++;
     }
     const report: CatalogImportReport = {
       startedAt,
       finishedAt: new Date().toISOString(),
       mode: "dry-run",
-      totals,
+      totals: dryRunTotals,
       items: plan.map((planned) => ({
         slug: planned.slug,
         imageFilename: planned.imageFilename,
