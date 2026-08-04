@@ -30,6 +30,12 @@ const MODEL_LABELS: Record<string, string> = {
   specialwomen: "Especial Feminina",
   prematch: "Pré-Jogo",
   training: "Treino",
+  jordan: "Jordan",
+  nightedition: "Night Edition",
+  "jordan-nightedition": "Jordan Night Edition",
+  fourth: "Fourth",
+  fourthwomen: "Fourth Feminina",
+  gk: "Goleiro",
 };
 
 const CATEGORY_PRICES: Record<CatalogCategory, number> = {
