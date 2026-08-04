@@ -74,6 +74,41 @@ export function seasonSortValue(season: string): number {
   return 0;
 }
 
+const MODEL_ORDER: Record<string, number> = {
+  home: 0,
+  away: 1,
+  third: 2,
+  fourth: 3,
+  special: 4,
+  specialedition: 4,
+  prematch: 5,
+  training: 6,
+  other: 7,
+};
+
+const KNOWN_MODEL_SLUGS = Object.keys(MODEL_ORDER)
+  .filter((key) => key !== "other")
+  .concat(["jordan-night-edition", "night-edition", "goleiro", "goalkeeper"])
+  .sort((a, b) => b.length - a.length);
+
+function modelRankFromSlug(slug: string): number {
+  const segments = slug.split("-").filter(Boolean);
+  while (segments.length > 0 && /^\d+$/.test(segments[segments.length - 1])) {
+    segments.pop();
+  }
+  const rest = segments.join("-");
+  for (const model of KNOWN_MODEL_SLUGS) {
+    if (rest.endsWith(model)) {
+      return MODEL_ORDER[model] ?? MODEL_ORDER.other;
+    }
+  }
+  return MODEL_ORDER.other;
+}
+
+function productModelRank(product: Product): number {
+  return product.slug ? modelRankFromSlug(product.slug) : MODEL_ORDER.other;
+}
+
 export const getProducts = cache(async (limit?: number): Promise<Product[]> => {
   if (!isSupabaseConfigured()) {
     return [];
@@ -181,12 +216,18 @@ export const searchProducts = cache(
       const ascending = sort === "season-asc";
       const sortValue = (product: Product) =>
         ascending ? seasonSortValue(product.season) : -seasonSortValue(product.season);
+      const rankValue = (product: Product) =>
+        ascending ? productModelRank(product) : -productModelRank(product);
       parsed.sort((a, b) => {
         if (league) {
           const club = a.club.localeCompare(b.club, "pt-BR");
           if (club !== 0) return club;
         }
-        return sortValue(a) - sortValue(b);
+        const seasonDiff = sortValue(a) - sortValue(b);
+        if (seasonDiff !== 0) return seasonDiff;
+        const rankDiff = rankValue(a) - rankValue(b);
+        if (rankDiff !== 0) return rankDiff;
+        return a.club.localeCompare(b.club, "pt-BR");
       });
 
       const from = (page - 1) * pageSize;

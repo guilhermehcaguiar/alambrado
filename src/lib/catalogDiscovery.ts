@@ -196,16 +196,22 @@ type ProductBuildInput = {
   extension: ImageExtension;
 };
 
-export function buildProduct(input: ProductBuildInput): DiscoveredProduct {
+export function buildProduct(
+  input: ProductBuildInput,
+  overrides?: OverridesInput,
+): DiscoveredProduct {
   const seasonInfo = input.seasonToken ? parseSeasonToken(input.seasonToken) : null;
   const seasonSlug = seasonInfo?.slugToken ?? "";
-  const modelLabel = MODEL_LABELS[input.modelKey] ?? titleCase(input.modelKey);
+  const modelLabel =
+    overrides?.modelLabels?.[input.modelKey] ?? MODEL_LABELS[input.modelKey] ?? titleCase(input.modelKey);
   const slug = [input.clubResolution.slug, slugifySegment(modelLabel), seasonSlug]
     .filter(Boolean)
     .join("-");
   const clubDisplay = input.clubResolution.displayName;
   const seasonDisplay = seasonInfo?.display ?? "";
-  const categoryLabel = CATEGORY_LABELS[input.category].toLowerCase();
+  const categoryLabel = (
+    overrides?.categoryLabels?.[input.category] ?? CATEGORY_LABELS[input.category]
+  ).toLowerCase();
   const seasonPart = seasonDisplay ? ` ${seasonDisplay}` : "";
   const name = `Camisa ${clubDisplay} ${modelLabel}${seasonPart}`;
   const description = `Camisa ${clubDisplay} ${modelLabel}${seasonPart} — versão ${categoryLabel} tailandesa 1:1.`;
@@ -268,6 +274,11 @@ function isGuideAsset(fileName: string): boolean {
   return /^(medidas|cuidados)(?:\.|$)/i.test(fileName);
 }
 
+export type OverridesInput = {
+  modelLabels?: Record<string, string>;
+  categoryLabels?: Partial<Record<CatalogCategory, string>>;
+};
+
 export type CatalogScanReport = {
   products: DiscoveredProduct[];
   categories: string[];
@@ -285,6 +296,7 @@ export type CatalogScanReport = {
 export async function scanCatalog(
   catalogRoot: string,
   resolveClub?: ClubResolver,
+  overrides?: OverridesInput,
 ): Promise<CatalogScanReport> {
   const warnings: string[] = [];
   const products: DiscoveredProduct[] = [];
@@ -361,19 +373,22 @@ export async function scanCatalog(
           `Clube "${club}" sem alias — sugestão "${clubResolution.displayName}" (needs-review).`,
         );
       }
-      const product = buildProduct({
-        category,
-        country,
-        sourceClubFolder: club,
-        clubResolution,
-        seasonToken,
-        modelKey,
-        sourcePath: file.path,
-        fileName: file.fileName,
-        extension: file.extension as ImageExtension,
-      });
+      const product = buildProduct(
+        {
+          category,
+          country,
+          sourceClubFolder: club,
+          clubResolution,
+          seasonToken,
+          modelKey,
+          sourcePath: file.path,
+          fileName: file.fileName,
+          extension: file.extension as ImageExtension,
+        },
+        overrides,
+      );
       models.add(product.model);
-      if (!MODEL_LABELS[product.modelKey]) {
+      if (!MODEL_LABELS[product.modelKey] && !overrides?.modelLabels?.[product.modelKey]) {
         unknownModels.add(product.modelKey);
         warnings.push(
           `Modelo novo/desconhecido "${product.modelKey}" em "${file.fileName}" — incluído como "${product.model}".`,
