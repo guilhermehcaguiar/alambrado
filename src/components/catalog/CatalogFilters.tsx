@@ -61,7 +61,8 @@ export default function CatalogFilters({ defaultQuery, defaultSort }: CatalogFil
           aria-hidden="true"
         />
         <input
-          type="search"
+          type="text"
+          inputMode="search"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           placeholder="Buscar por nome"
