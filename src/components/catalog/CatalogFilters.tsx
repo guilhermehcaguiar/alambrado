@@ -77,7 +77,7 @@ export default function CatalogFilters({ defaultQuery, defaultSort }: CatalogFil
             aria-label="Limpar busca"
             className="absolute right-2 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-md text-mist transition-colors duration-200 hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
           >
-            <X className="size-4 text-mist" aria-hidden="true" />
+            <X className="size-4" aria-hidden="true" />
           </button>
         ) : null}
       </label>

@@ -44,6 +44,36 @@ function isSupabaseConfigured(): boolean {
   );
 }
 
+export function seasonSortValue(season: string): number {
+  const value = season.trim();
+  if (!value) return -1;
+  const toFullYear = (y: string): number => {
+    const n = Number(y);
+    return n >= 70 ? 1900 + n : 2000 + n;
+  };
+  const pair = value.match(/^(\d{2})\/(\d{2})$/);
+  if (pair) {
+    const start = toFullYear(pair[1]);
+    const end = toFullYear(pair[2]);
+    return start * 1_000_000 + end * 1000 + 2;
+  }
+  const full = value.match(/^(\d{4})-(\d{4})$/);
+  if (full) {
+    return Number(full[1]) * 1_000_000 + Number(full[2]) * 1000 + 2;
+  }
+  const year = value.match(/^(\d{4})$/);
+  if (year) {
+    const y = Number(year[1]);
+    return y * 1_000_000 + y * 1000 + 1;
+  }
+  const short = value.match(/^(\d{2})$/);
+  if (short) {
+    const y = toFullYear(short[1]);
+    return y * 1_000_000 + y * 1000 + 1;
+  }
+  return 0;
+}
+
 export const getProducts = cache(async (limit?: number): Promise<Product[]> => {
   if (!isSupabaseConfigured()) {
     return [];
@@ -140,6 +170,32 @@ export const searchProducts = cache(
       dbQuery = dbQuery.or(`name.ilike.${like},slug.ilike.${like}`);
     }
 
+    if (sort === "season-desc" || sort === "season-asc") {
+      const { data, error, count } = await dbQuery;
+
+      if (error) {
+        return { products: [], total: 0 };
+      }
+
+      const parsed = productSchema.array().parse(data ?? []);
+      const ascending = sort === "season-asc";
+      const sortValue = (product: Product) =>
+        ascending ? seasonSortValue(product.season) : -seasonSortValue(product.season);
+      parsed.sort((a, b) => {
+        if (league) {
+          const club = a.club.localeCompare(b.club, "pt-BR");
+          if (club !== 0) return club;
+        }
+        return sortValue(a) - sortValue(b);
+      });
+
+      const from = (page - 1) * pageSize;
+      return {
+        products: parsed.slice(from, from + pageSize),
+        total: count ?? 0,
+      };
+    }
+
     switch (sort) {
       case "price-asc":
         dbQuery = dbQuery.order("price", { ascending: true });
@@ -149,16 +205,6 @@ export const searchProducts = cache(
         break;
       case "name-asc":
         dbQuery = dbQuery.order("name", { ascending: true });
-        break;
-      case "season-desc":
-        dbQuery = league
-          ? dbQuery.order("club", { ascending: true }).order("season", { ascending: false })
-          : dbQuery.order("season", { ascending: false });
-        break;
-      case "season-asc":
-        dbQuery = league
-          ? dbQuery.order("club", { ascending: true }).order("season", { ascending: true })
-          : dbQuery.order("season", { ascending: true });
         break;
       default:
         dbQuery = dbQuery.order("created_at", { ascending: false });
