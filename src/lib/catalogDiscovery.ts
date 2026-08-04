@@ -86,7 +86,7 @@ export function slugifySegment(input: string): string {
 export function titleCase(input: string): string {
   return input
     .toLowerCase()
-    .split(/(\s|-)+/)
+    .split(/[\s-]+/)
     .filter(Boolean)
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
