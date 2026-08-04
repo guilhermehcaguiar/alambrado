@@ -4,7 +4,7 @@ import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { normalizeCategory, type Product, type ProductCategory } from "@/types/product";
 import type { CategoryFilter, ProductSort } from "@/utils/catalog";
 
-export const PAGE_SIZE = 9;
+export const PAGE_SIZE = 16;
 
 export type ProductSearchParams = {
   category?: CategoryFilter;
