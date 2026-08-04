@@ -151,10 +151,14 @@ export const searchProducts = cache(
         dbQuery = dbQuery.order("name", { ascending: true });
         break;
       case "season-desc":
-        dbQuery = dbQuery.order("season", { ascending: false });
+        dbQuery = league
+          ? dbQuery.order("club", { ascending: true }).order("season", { ascending: false })
+          : dbQuery.order("season", { ascending: false });
         break;
       case "season-asc":
-        dbQuery = dbQuery.order("season", { ascending: true });
+        dbQuery = league
+          ? dbQuery.order("club", { ascending: true }).order("season", { ascending: true })
+          : dbQuery.order("season", { ascending: true });
         break;
       default:
         dbQuery = dbQuery.order("created_at", { ascending: false });
