@@ -2,13 +2,21 @@ import { PRODUCT_CATEGORIES, type ProductCategory } from "@/types/product";
 
 export type CategoryFilter = ProductCategory | "all";
 
-export type ProductSort = "newest" | "price-asc" | "price-desc" | "name-asc";
+export type ProductSort =
+  | "newest"
+  | "price-asc"
+  | "price-desc"
+  | "name-asc"
+  | "season-desc"
+  | "season-asc";
 
 export const PRODUCT_SORTS: ProductSort[] = [
   "newest",
   "price-asc",
   "price-desc",
   "name-asc",
+  "season-desc",
+  "season-asc",
 ];
 
 export function parseCategory(value: unknown): CategoryFilter {

@@ -10,6 +10,8 @@ const SORT_OPTIONS: { value: ProductSort; label: string }[] = [
   { value: "price-asc", label: "Preço crescente" },
   { value: "price-desc", label: "Preço decrescente" },
   { value: "name-asc", label: "Nome A–Z" },
+  { value: "season-desc", label: "Temporada decrescente" },
+  { value: "season-asc", label: "Temporada crescente" },
 ];
 
 type CatalogFiltersProps = {
@@ -75,7 +77,7 @@ export default function CatalogFilters({ defaultQuery, defaultSort }: CatalogFil
             aria-label="Limpar busca"
             className="absolute right-2 top-1/2 flex size-8 -translate-y-1/2 items-center justify-center rounded-md text-mist transition-colors duration-200 hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
           >
-            <X className="size-4 text-graphite" aria-hidden="true" />
+            <X className="size-4 text-mist" aria-hidden="true" />
           </button>
         ) : null}
       </label>

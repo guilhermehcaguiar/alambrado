@@ -150,6 +150,12 @@ export const searchProducts = cache(
       case "name-asc":
         dbQuery = dbQuery.order("name", { ascending: true });
         break;
+      case "season-desc":
+        dbQuery = dbQuery.order("season", { ascending: false });
+        break;
+      case "season-asc":
+        dbQuery = dbQuery.order("season", { ascending: true });
+        break;
       default:
         dbQuery = dbQuery.order("created_at", { ascending: false });
     }
