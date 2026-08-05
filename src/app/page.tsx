@@ -38,7 +38,7 @@ const CATEGORIES: { key: ProductCategory; description: string; tag: string }[] =
   {
     key: "retro",
     description: "Retrôs e mantos marcantes para colecionar.",
-    tag: "Em breve",
+    tag: "Disponível agora",
   },
 ] as const;
 

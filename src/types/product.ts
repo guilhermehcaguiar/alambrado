@@ -33,7 +33,7 @@ export const CATEGORY_STATUS: Record<ProductCategory, "active" | "coming-soon"> 
   torcedor: "active",
   infantil: "coming-soon",
   jogador: "coming-soon",
-  retro: "coming-soon",
+  retro: "active",
 };
 
 export interface PromoTier {
