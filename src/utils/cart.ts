@@ -1,6 +1,6 @@
 import { MAX_CART_ITEM_QUANTITY, type CartItem } from "@/types/cart";
 import type { ProductSize } from "@/types/product";
-import { computePriceForSize } from "@/config/prices";
+import { computePriceForSize, getPromoUnitPrice } from "@/config/prices";
 
 export function createCartItemId(productId: string, size: ProductSize): string {
   return `${productId}:${size}`;
@@ -10,12 +10,33 @@ export function computeUnitPrice(price: number, size: ProductSize): number {
   return computePriceForSize(price, size);
 }
 
-export function getItemSubtotal(item: CartItem): number {
-  return item.quantity * item.unitPrice;
+export function getCategoryQuantities(items: CartItem[]): Record<string, number> {
+  return items.reduce<Record<string, number>>((acc, item) => {
+    acc[item.category] = (acc[item.category] ?? 0) + item.quantity;
+    return acc;
+  }, {});
+}
+
+export function getItemUnitPrice(item: CartItem, categoryQuantities?: Record<string, number>): number {
+  const promoQuantity = categoryQuantities ? categoryQuantities[item.category] ?? 0 : item.quantity;
+  const promoUnit = getPromoUnitPrice(promoQuantity, {
+    promoPrice: item.promoPrice,
+    promoMinQty: item.promoMinQty,
+    promoStartsAt: item.promoStartsAt,
+  });
+  if (promoUnit != null) {
+    return computePriceForSize(promoUnit, item.size);
+  }
+  return item.unitPrice;
+}
+
+export function getItemSubtotal(item: CartItem, categoryQuantities?: Record<string, number>): number {
+  return item.quantity * getItemUnitPrice(item, categoryQuantities);
 }
 
 export function getCartSubtotal(items: CartItem[]): number {
-  return items.reduce((sum, item) => sum + getItemSubtotal(item), 0);
+  const categoryQuantities = getCategoryQuantities(items);
+  return items.reduce((sum, item) => sum + getItemSubtotal(item, categoryQuantities), 0);
 }
 
 export function getCartTotalItems(items: CartItem[]): number {

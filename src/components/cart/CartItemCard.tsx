@@ -7,7 +7,7 @@ import CartQuantityControl from "@/components/cart/CartQuantityControl";
 import { useCart } from "@/hooks/useCart";
 import { CATEGORY_LABELS, PRODUCT_SIZES, type ProductSize } from "@/types/product";
 import type { CartItem } from "@/types/cart";
-import { getItemSubtotal } from "@/utils/cart";
+import { getCategoryQuantities, getItemSubtotal, getItemUnitPrice } from "@/utils/cart";
 import { formatBRL } from "@/utils/format";
 
 type CartItemCardProps = {
@@ -15,8 +15,12 @@ type CartItemCardProps = {
 };
 
 export default function CartItemCard({ item }: CartItemCardProps) {
-  const { removeItem, updateQuantity, updateSize } = useCart();
-  const subtotal = getItemSubtotal(item);
+  const { removeItem, updateQuantity, updateSize, items } = useCart();
+  const categoryQuantities = getCategoryQuantities(items);
+  const subtotal = getItemSubtotal(item, categoryQuantities);
+  const unitPrice = getItemUnitPrice(item, categoryQuantities);
+  const promoActive =
+    item.promoPrice != null && item.promoMinQty != null && (categoryQuantities[item.category] ?? 0) >= item.promoMinQty;
 
   return (
     <li className="flex gap-4 rounded-xl border border-ash bg-graphite p-4 sm:gap-5">
@@ -84,7 +88,8 @@ export default function CartItemCard({ item }: CartItemCardProps) {
 
           <div className="ml-auto text-right">
             <p className="font-body text-xs text-mist">
-              Unitário: {formatBRL(item.unitPrice)}
+              Unitário: {formatBRL(unitPrice)}
+              {promoActive ? " (promoção)" : ""}
             </p>
             <p className="font-display text-xl tracking-wide text-brand">
               {formatBRL(subtotal)}

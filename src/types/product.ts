@@ -46,8 +46,30 @@ export interface Product {
   league: string;
   description: string;
   price: number;
+  promo_price: number | null;
+  promo_min_qty: number | null;
+  promo_starts_at: string | null;
   image_url: string;
   featured: boolean;
   available: boolean;
   created_at: string;
+}
+
+export function hasPromo(product: Pick<Product, "promo_price" | "promo_min_qty" | "promo_starts_at">): boolean {
+  return (
+    product.promo_price != null &&
+    product.promo_price >= 0 &&
+    product.promo_min_qty != null &&
+    product.promo_min_qty >= 2 &&
+    isPromoStarted(product.promo_starts_at)
+  );
+}
+
+export function isPromoStarted(promoStartsAt: string | null | undefined, today?: Date): boolean {
+  if (!promoStartsAt) {
+    return true;
+  }
+  const date = today ?? new Date();
+  const start = new Date(`${promoStartsAt}T00:00:00`);
+  return date >= start;
 }

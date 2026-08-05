@@ -28,6 +28,9 @@ export type CartItem = {
   size: ProductSize;
   quantity: number;
   unitPrice: number;
+  promoPrice?: number | null;
+  promoMinQty?: number | null;
+  promoStartsAt?: string | null;
   personalization: CartPersonalization;
   patch: CartPatch;
 };
@@ -54,6 +57,9 @@ export const cartItemSchema = z.object({
   size: z.enum(PRODUCT_SIZES),
   quantity: z.number().int().min(1).max(MAX_CART_ITEM_QUANTITY),
   unitPrice: z.number().min(0),
+  promoPrice: z.number().min(0).nullable().optional(),
+  promoMinQty: z.number().int().min(1).nullable().optional(),
+  promoStartsAt: z.string().nullable().optional(),
   personalization: personalizationSchema,
   patch: patchSchema,
 });

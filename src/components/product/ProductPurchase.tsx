@@ -6,28 +6,37 @@ import Button from "@/components/ui/Button";
 import CartQuantityControl from "@/components/cart/CartQuantityControl";
 import ProductPrice from "@/components/product/ProductPrice";
 import ProductSelector from "@/components/product/ProductSelector";
-import { computePriceForSize, getSizeSurcharge } from "@/config/prices";
+import { computePriceForSize, getPromoUnitPrice, getSizeSurcharge } from "@/config/prices";
 import { useCart } from "@/hooks/useCart";
 import { MAX_CART_ITEM_QUANTITY, type CartItem } from "@/types/cart";
-import type { Product, ProductSize } from "@/types/product";
-import { computeUnitPrice, createCartItemId } from "@/utils/cart";
-import { formatBRL } from "@/utils/format";
+import { CATEGORY_LABELS, isPromoStarted, type Product, type ProductSize } from "@/types/product";
+import { computeUnitPrice, createCartItemId, getCategoryQuantities } from "@/utils/cart";
+import { formatBRL, formatDate } from "@/utils/format";
 
 type ProductPurchaseProps = {
   product: Product;
 };
 
 export default function ProductPurchase({ product }: ProductPurchaseProps) {
-  const { addItem } = useCart();
+  const { addItem, items } = useCart();
   const [selectedSize, setSelectedSize] = useState<ProductSize | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [error, setError] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<string | null>(null);
 
   const surcharge = selectedSize ? getSizeSurcharge(selectedSize) : 0;
+  const categoryQuantities = getCategoryQuantities(items);
+  const promoQuantity = (categoryQuantities[product.category] ?? 0) + quantity;
+  const promoUnit = getPromoUnitPrice(promoQuantity, {
+    promoPrice: product.promo_price,
+    promoMinQty: product.promo_min_qty,
+    promoStartsAt: product.promo_starts_at,
+  });
   const displayPrice = selectedSize
-    ? computePriceForSize(product.price, selectedSize)
-    : product.price;
+    ? computePriceForSize(promoUnit != null ? promoUnit : product.price, selectedSize)
+    : promoUnit != null
+      ? promoUnit
+      : product.price;
 
   function handleAdd() {
     if (!selectedSize) {
@@ -48,6 +57,9 @@ export default function ProductPurchase({ product }: ProductPurchaseProps) {
       size: selectedSize,
       quantity,
       unitPrice: computeUnitPrice(product.price, selectedSize),
+      promoPrice: product.promo_price ?? null,
+      promoMinQty: product.promo_min_qty ?? null,
+      promoStartsAt: product.promo_starts_at ?? null,
       personalization: { enabled: false, price: 0 },
       patch: { enabled: false, price: 0 },
     };
@@ -58,10 +70,29 @@ export default function ProductPurchase({ product }: ProductPurchaseProps) {
     setQuantity(1);
   }
 
+  const promoStarted = isPromoStarted(product.promo_starts_at);
+  const promoNote = !promoStarted
+    ? product.promo_starts_at
+      ? `Promoção programada: a partir de ${formatDate(product.promo_starts_at)}, leve ${product.promo_min_qty}+ camisas ${CATEGORY_LABELS[product.category].toLowerCase()} por ${formatBRL(product.promo_price as number)} cada.`
+      : null
+    : promoUnit != null && product.promo_min_qty != null
+      ? `Preço promocional de ${formatBRL(product.promo_price as number)} aplicado para ${product.promo_min_qty}+ camisas ${CATEGORY_LABELS[product.category].toLowerCase()}.`
+      : product.promo_price != null && product.promo_min_qty != null
+        ? `Leve ${product.promo_min_qty}+ camisas ${CATEGORY_LABELS[product.category].toLowerCase()} e pague ${formatBRL(product.promo_price)} cada.`
+        : null;
+
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col items-start gap-2">
-        <ProductPrice price={displayPrice} />
+        <ProductPrice
+          price={displayPrice}
+          originalPrice={promoUnit != null ? product.price : null}
+        />
+        {promoNote ? (
+          <p className="rounded-md bg-brand/15 px-2.5 py-1 font-body text-sm font-semibold text-brand">
+            {promoNote}
+          </p>
+        ) : null}
         {surcharge > 0 ? (
           <p className="rounded-md bg-amber-400/15 px-2.5 py-1 font-body text-sm font-semibold text-amber-300">
             Acréscimo de {formatBRL(surcharge)} para o tamanho {selectedSize}.

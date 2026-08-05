@@ -1,5 +1,5 @@
 import { formatBRL } from "@/utils/format";
-import { getItemSubtotal } from "@/utils/cart";
+import { getCategoryQuantities, getItemSubtotal, getItemUnitPrice } from "@/utils/cart";
 import type { CartItem } from "@/types/cart";
 
 type CheckoutOrderSummaryProps = {
@@ -8,6 +8,7 @@ type CheckoutOrderSummaryProps = {
 };
 
 export default function CheckoutOrderSummary({ items, total }: CheckoutOrderSummaryProps) {
+  const categoryQuantities = getCategoryQuantities(items);
   return (
     <div className="mt-5 rounded-lg border border-ash bg-coal p-4">
       <p className="font-body text-sm font-semibold text-paper">Resumo do pedido</p>
@@ -18,11 +19,11 @@ export default function CheckoutOrderSummary({ items, total }: CheckoutOrderSumm
             <div className="min-w-0">
               <p className="text-paper">{item.name}</p>
               <p className="mt-0.5 text-xs text-mist">
-                Tamanho {item.size} · {item.quantity}x · {formatBRL(item.unitPrice)}
+                Tamanho {item.size} · {item.quantity}x · {formatBRL(getItemUnitPrice(item, categoryQuantities))}
               </p>
             </div>
             <span className="shrink-0 text-paper">
-              {formatBRL(getItemSubtotal(item))}
+              {formatBRL(getItemSubtotal(item, categoryQuantities))}
             </span>
           </li>
         ))}

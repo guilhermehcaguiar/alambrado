@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { getSupabaseServerClient } from "@/lib/supabase/server";
 import { getWhatsAppNumber, isWhatsAppConfigured } from "@/config/env";
-import { computePriceForSize } from "@/config/prices";
+import { computePriceForSize, getPromoUnitPrice } from "@/config/prices";
 import { normalizeCategory } from "@/types/product";
 import type {
   CheckoutResolvedItem,
@@ -45,6 +45,8 @@ const productCheckoutSchema = z.object({
     .enum(["torcedor", "promocional-torcedor", "infantil", "jogador", "retro"])
     .transform((value) => normalizeCategory(value) ?? "torcedor"),
   price: z.coerce.number(),
+  promo_price: z.coerce.number().nullable().optional().transform((value) => value ?? null),
+  promo_min_qty: z.coerce.number().int().nullable().optional().transform((value) => value ?? null),
 });
 
 type ResolvedProduct = z.infer<typeof productCheckoutSchema>;
@@ -72,7 +74,7 @@ async function fetchAvailableProductsByIds(ids: string[]): Promise<Map<string, R
 
   const { data, error } = await getSupabaseServerClient()
     .from("products")
-    .select("id, name, slug, club, season, category, price")
+    .select("id, name, slug, club, season, category, price, promo_price, promo_min_qty")
     .in("id", validIds)
     .eq("available", true);
 
@@ -99,6 +101,14 @@ export async function resolveWhatsAppCheckout(
   const ids = Array.from(new Set(mergedItems.map((item) => item.productId)));
   const products = await fetchAvailableProductsByIds(ids);
 
+  const productQuantities = new Map<string, number>();
+  for (const item of mergedItems) {
+    productQuantities.set(
+      item.productId,
+      (productQuantities.get(item.productId) ?? 0) + item.quantity,
+    );
+  }
+
   const resolvedItems: CheckoutResolvedItem[] = mergedItems.map((item) => {
     const product = products.get(item.productId);
 
@@ -109,7 +119,12 @@ export async function resolveWhatsAppCheckout(
       );
     }
 
-    const unitPrice = computePriceForSize(product.price, item.size);
+    const promoUnit = getPromoUnitPrice(productQuantities.get(item.productId) ?? item.quantity, {
+      promoPrice: product.promo_price,
+      promoMinQty: product.promo_min_qty,
+    });
+    const baseUnit = promoUnit != null ? promoUnit : product.price;
+    const unitPrice = computePriceForSize(baseUnit, item.size);
 
     return {
       productId: product.id,

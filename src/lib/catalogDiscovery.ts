@@ -478,6 +478,9 @@ export type GeneratedCsvRow = {
   category: CatalogCategory;
   description: string;
   price: number;
+  promo_price?: number | null;
+  promo_min_qty?: number | null;
+  promo_starts_at?: string | null;
   image_filename: string;
   featured: boolean;
   available: boolean;
