@@ -6,7 +6,8 @@ import Button from "@/components/ui/Button";
 import CartQuantityControl from "@/components/cart/CartQuantityControl";
 import ProductPrice from "@/components/product/ProductPrice";
 import ProductSelector from "@/components/product/ProductSelector";
-import { computePriceForSize, getPromoUnitPrice, getSizeSurcharge } from "@/config/prices";
+import { applyExtras, getPromoUnitPrice } from "@/config/prices";
+import type { PriceExtras } from "@/services/priceConfig";
 import { useCart } from "@/hooks/useCart";
 import { MAX_CART_ITEM_QUANTITY, type CartItem } from "@/types/cart";
 import { CATEGORY_LABELS, isPromoStarted, type Product, type ProductSize } from "@/types/product";
@@ -15,28 +16,29 @@ import { formatBRL, formatDate } from "@/utils/format";
 
 type ProductPurchaseProps = {
   product: Product;
+  extras: PriceExtras | null;
 };
 
-export default function ProductPurchase({ product }: ProductPurchaseProps) {
+export default function ProductPurchase({ product, extras }: ProductPurchaseProps) {
   const { addItem, items } = useCart();
   const [selectedSize, setSelectedSize] = useState<ProductSize | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [error, setError] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<string | null>(null);
 
-  const surcharge = selectedSize ? getSizeSurcharge(selectedSize) : 0;
+  const surcharge = selectedSize ? applyExtras(0, selectedSize, extras) : 0;
   const categoryQuantities = getCategoryQuantities(items);
   const promoQuantity = (categoryQuantities[product.category] ?? 0) + quantity;
   const promoUnit = getPromoUnitPrice(promoQuantity, {
     promoPrice: product.promo_price,
     promoMinQty: product.promo_min_qty,
     promoStartsAt: product.promo_starts_at,
+    promoTiers: product.promo_tiers,
   });
+  const basePromo = promoUnit != null ? promoUnit : product.price;
   const displayPrice = selectedSize
-    ? computePriceForSize(promoUnit != null ? promoUnit : product.price, selectedSize)
-    : promoUnit != null
-      ? promoUnit
-      : product.price;
+    ? applyExtras(basePromo, selectedSize, extras)
+    : basePromo;
 
   function handleAdd() {
     if (!selectedSize) {
@@ -56,10 +58,13 @@ export default function ProductPurchase({ product }: ProductPurchaseProps) {
       imageUrl: product.image_url,
       size: selectedSize,
       quantity,
-      unitPrice: computeUnitPrice(product.price, selectedSize),
+      unitPrice: product.price + (extras?.oversizedSizes.includes(selectedSize) ? (extras?.oversizedSurcharge ?? 0) : 0),
       promoPrice: product.promo_price ?? null,
       promoMinQty: product.promo_min_qty ?? null,
       promoStartsAt: product.promo_starts_at ?? null,
+      promoTiers: product.promo_tiers ?? null,
+      oversizedSurcharge: extras?.oversizedSurcharge ?? 0,
+      oversizedSizes: extras?.oversizedSizes ?? [],
       personalization: { enabled: false, price: 0 },
       patch: { enabled: false, price: 0 },
     };
@@ -71,21 +76,20 @@ export default function ProductPurchase({ product }: ProductPurchaseProps) {
   }
 
   const promoStarted = isPromoStarted(product.promo_starts_at);
-  const hasQtyRule = product.promo_min_qty != null && product.promo_min_qty > 1;
+  const tiers = product.promo_tiers && product.promo_tiers.length > 0 ? [...product.promo_tiers].sort((a, b) => a.minQty - b.minQty) : null;
   const categoryName = CATEGORY_LABELS[product.category].toLowerCase();
+  const tierLabel = tiers
+    ? tiers.map((t) => `≥${t.minQty} un → ${formatBRL(t.price)}`).join(" | ")
+    : null;
   const promoNote = !promoStarted
     ? product.promo_starts_at
-      ? hasQtyRule
-        ? `Promoção programada: a partir de ${formatDate(product.promo_starts_at)}, leve ${product.promo_min_qty}+ camisas ${categoryName} por ${formatBRL(product.promo_price as number)} cada.`
-        : `Promoção programada: a partir de ${formatDate(product.promo_starts_at)}, camisas ${categoryName} por ${formatBRL(product.promo_price as number)}.`
+      ? `Promoção programada: a partir de ${formatDate(product.promo_starts_at)}${tierLabel ? `, ${tierLabel}` : `, ${categoryName} por ${formatBRL(product.promo_price as number)}`}.`
       : null
-    : promoUnit != null && hasQtyRule
-      ? `Preço promocional de ${formatBRL(product.promo_price as number)} aplicado para ${product.promo_min_qty}+ camisas ${categoryName}.`
+    : tierLabel
+      ? `Promoção por quantidade: ${tierLabel}.`
       : promoUnit != null
         ? `Promoção de pré-inauguração: camisas ${categoryName} por ${formatBRL(product.promo_price as number)}.`
-        : product.promo_price != null && hasQtyRule
-          ? `Leve ${product.promo_min_qty}+ camisas ${categoryName} e pague ${formatBRL(product.promo_price)} cada.`
-          : null;
+        : null;
 
   return (
     <div className="flex flex-col gap-6">

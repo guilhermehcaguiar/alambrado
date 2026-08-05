@@ -1,13 +1,14 @@
 import { MAX_CART_ITEM_QUANTITY, type CartItem } from "@/types/cart";
 import type { ProductSize } from "@/types/product";
-import { computePriceForSize, getPromoUnitPrice } from "@/config/prices";
+import { getPromoUnitPrice } from "@/config/prices";
 
 export function createCartItemId(productId: string, size: ProductSize): string {
   return `${productId}:${size}`;
 }
 
-export function computeUnitPrice(price: number, size: ProductSize): number {
-  return computePriceForSize(price, size);
+export function computeUnitPrice(price: number, size: ProductSize, item: CartItem): number {
+  const surcharge = item.oversizedSizes.includes(size) ? item.oversizedSurcharge : 0;
+  return price + surcharge;
 }
 
 export function getCategoryQuantities(items: CartItem[]): Record<string, number> {
@@ -23,9 +24,10 @@ export function getItemUnitPrice(item: CartItem, categoryQuantities?: Record<str
     promoPrice: item.promoPrice,
     promoMinQty: item.promoMinQty,
     promoStartsAt: item.promoStartsAt,
+    promoTiers: item.promoTiers,
   });
   if (promoUnit != null) {
-    return computePriceForSize(promoUnit, item.size);
+    return computeUnitPrice(promoUnit, item.size, item);
   }
   return item.unitPrice;
 }

@@ -36,6 +36,11 @@ export const CATEGORY_STATUS: Record<ProductCategory, "active" | "coming-soon"> 
   retro: "coming-soon",
 };
 
+export interface PromoTier {
+  minQty: number;
+  price: number;
+}
+
 export interface Product {
   id: string;
   name: string;
@@ -49,13 +54,17 @@ export interface Product {
   promo_price: number | null;
   promo_min_qty: number | null;
   promo_starts_at: string | null;
+  promo_tiers: PromoTier[] | null;
   image_url: string;
   featured: boolean;
   available: boolean;
   created_at: string;
 }
 
-export function hasPromo(product: Pick<Product, "promo_price" | "promo_min_qty" | "promo_starts_at">): boolean {
+export function hasPromo(product: Pick<Product, "promo_price" | "promo_min_qty" | "promo_starts_at" | "promo_tiers">): boolean {
+  if (product.promo_tiers && product.promo_tiers.length > 0) {
+    return isPromoStarted(product.promo_starts_at);
+  }
   return (
     product.promo_price != null &&
     product.promo_price >= 0 &&

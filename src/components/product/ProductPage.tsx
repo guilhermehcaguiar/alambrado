@@ -5,11 +5,12 @@ import Container from "@/components/ui/Container";
 import Divider from "@/components/ui/Divider";
 import ProductImage from "@/components/product/ProductImage";
 import ProductInfo from "@/components/product/ProductInfo";
+import { type PriceExtras } from "@/services/priceConfig";
 import ProductPurchase from "@/components/product/ProductPurchase";
 import ProductGuideSection from "@/components/product/ProductGuideSection";
 import { CATEGORY_LABELS } from "@/types/product";
 
-export default function ProductPage({ product }: { product: Product }) {
+export default function ProductPage({ product, extras }: { product: Product; extras: PriceExtras | null }) {
   return (
     <Container className="py-8 sm:py-12">
       <nav aria-label="Trilha de navegação" className="mb-6 -mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0">
@@ -62,7 +63,7 @@ export default function ProductPage({ product }: { product: Product }) {
             league={product.league}
           />
 
-          <ProductPurchase product={product} />
+          <ProductPurchase product={product} extras={extras} />
         </div>
       </div>
 

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { BRAND } from "@/config/brand";
 import { getSiteUrl } from "@/config/site";
+import { getPriceExtras } from "@/services/priceConfig";
 import { getProductBySlug } from "@/services/products";
 import ProductPage from "@/components/product/ProductPage";
 
@@ -42,11 +43,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProductRoute({ params }: Props) {
   const { slug } = await params;
-  const product = await getProductBySlug(slug);
+  const [product, extras] = await Promise.all([
+    getProductBySlug(slug),
+    getPriceExtras(),
+  ]);
 
   if (!product) {
     notFound();
   }
 
-  return <ProductPage product={product} />;
+  return <ProductPage product={product} extras={extras} />;
 }

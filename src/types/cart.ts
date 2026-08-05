@@ -31,6 +31,9 @@ export type CartItem = {
   promoPrice?: number | null;
   promoMinQty?: number | null;
   promoStartsAt?: string | null;
+  promoTiers?: { minQty: number; price: number }[] | null;
+  oversizedSurcharge: number;
+  oversizedSizes: string[];
   personalization: CartPersonalization;
   patch: CartPatch;
 };
@@ -60,6 +63,9 @@ export const cartItemSchema = z.object({
   promoPrice: z.number().min(0).nullable().optional(),
   promoMinQty: z.number().int().min(1).nullable().optional(),
   promoStartsAt: z.string().nullable().optional(),
+  promoTiers: z.array(z.object({ minQty: z.number(), price: z.number() })).nullable().optional(),
+  oversizedSurcharge: z.number().min(0).default(0),
+  oversizedSizes: z.array(z.string()).default([]),
   personalization: personalizationSchema,
   patch: patchSchema,
 });
