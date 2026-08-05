@@ -17,15 +17,14 @@ export default function ProductImage({ imageUrl, alt }: ProductImageProps) {
   }
 
   return (
-    <div className="overflow-hidden rounded-xl border border-ash bg-coal">
+    <div className="relative aspect-square w-full overflow-hidden rounded-xl border border-ash bg-coal">
       <Image
         src={imageUrl}
         alt={alt}
-        width={1200}
-        height={1200}
+        fill
         priority
         sizes="(min-width: 1024px) 50vw, 100vw"
-        className="h-auto w-full"
+        className="object-cover"
       />
     </div>
   );

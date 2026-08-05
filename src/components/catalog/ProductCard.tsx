@@ -20,7 +20,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             alt={`Camisa ${product.name}`}
             fill
             sizes="(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            className="object-contain transition-transform duration-200 group-hover:scale-[1.03]"
+            className="object-cover transition-transform duration-200 group-hover:scale-[1.03]"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center bg-coal text-mist">
