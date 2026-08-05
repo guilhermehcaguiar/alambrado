@@ -54,6 +54,7 @@ export interface Product {
   promo_price: number | null;
   promo_min_qty: number | null;
   promo_starts_at: string | null;
+  promo_note: string | null;
   promo_tiers: PromoTier[] | null;
   image_url: string;
   featured: boolean;

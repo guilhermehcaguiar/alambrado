@@ -35,6 +35,7 @@ const productSchema = z.object({
   promo_price: z.coerce.number().nullable().optional().transform((value) => value ?? null),
   promo_min_qty: z.coerce.number().int().nullable().optional().transform((value) => value ?? null),
   promo_starts_at: z.string().nullable().optional().transform((value) => value ?? null),
+  promo_note: z.string().nullable().optional().transform((value) => value ?? null),
   promo_tiers: z.unknown().optional().transform((value) => {
     if (!Array.isArray(value)) return null;
     return value.filter((v: unknown) =>

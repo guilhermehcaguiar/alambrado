@@ -77,19 +77,22 @@ export default function ProductPurchase({ product, extras }: ProductPurchaseProp
 
   const promoStarted = isPromoStarted(product.promo_starts_at);
   const tiers = product.promo_tiers && product.promo_tiers.length > 0 ? [...product.promo_tiers].sort((a, b) => a.minQty - b.minQty) : null;
+  const customNote = product.promo_note?.trim() ? product.promo_note.trim() : null;
   const categoryName = CATEGORY_LABELS[product.category]?.toLowerCase() ?? product.category;
   const tierLabel = tiers
     ? tiers.map((t) => `≥${t.minQty} un → ${formatBRL(t.price)}`).join(" | ")
     : null;
-  const promoNote = !promoStarted
-    ? product.promo_starts_at
-      ? `Promoção programada: a partir de ${formatDate(product.promo_starts_at)}${tierLabel ? `, ${tierLabel}` : `, ${categoryName} por ${formatBRL(product.promo_price as number)}`}.`
-      : null
-    : tierLabel
-      ? `Promoção por quantidade: ${tierLabel}.`
-      : promoUnit != null
-        ? `Promoção de pré-inauguração: camisas ${categoryName} por ${formatBRL(product.promo_price as number)}.`
-        : null;
+  const promoNote = customNote
+    ? customNote
+    : !promoStarted
+      ? product.promo_starts_at
+        ? `Promoção programada: a partir de ${formatDate(product.promo_starts_at)}${tierLabel ? `, ${tierLabel}` : `, ${categoryName} por ${formatBRL(product.promo_price as number)}`}.`
+        : null
+      : tierLabel
+        ? `Promoção por quantidade: ${tierLabel}.`
+        : promoUnit != null
+          ? `Promoção de pré-inauguração: camisas ${categoryName} por ${formatBRL(product.promo_price as number)}.`
+          : null;
 
   return (
     <div className="flex flex-col gap-6">
