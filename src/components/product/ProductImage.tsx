@@ -17,7 +17,7 @@ export default function ProductImage({ imageUrl, alt }: ProductImageProps) {
   }
 
   return (
-    <div className="overflow-hidden rounded-xl border border-ash bg-paper">
+    <div className="overflow-hidden rounded-xl border border-ash bg-coal">
       <Image
         src={imageUrl}
         alt={alt}

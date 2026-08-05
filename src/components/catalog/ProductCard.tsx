@@ -13,7 +13,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   const promo = hasPromo(product);
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-ash bg-graphite transition-colors duration-200 hover:border-brand/60">
-      <div className="relative aspect-square w-full overflow-hidden bg-paper">
+      <div className="relative aspect-square w-full overflow-hidden bg-coal">
         {product.image_url ? (
           <Image
             src={product.image_url}
