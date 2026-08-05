@@ -189,12 +189,19 @@ export const searchProducts = cache(
       pageSize = PAGE_SIZE,
     } = params;
 
+    const todayIso = new Date().toISOString().slice(0, 10);
+
     let dbQuery = getSupabaseServerClient()
       .from("products")
       .select("*", { count: "exact" })
       .eq("available", true);
 
-    if (category !== "all") {
+    if (category === "promo") {
+      dbQuery = dbQuery
+        .gte("promo_price", 0)
+        .gte("promo_min_qty", 1)
+        .or(`promo_starts_at.is.null,promo_starts_at.lte.${todayIso}`);
+    } else if (category !== "all") {
       dbQuery = dbQuery.eq("category", category);
     }
 

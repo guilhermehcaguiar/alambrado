@@ -10,6 +10,7 @@ type CategoryFilterProps = {
 export default function CategoryFilter({ current, params }: CategoryFilterProps) {
   const items: { value: CategoryFilterValue; label: string }[] = [
     { value: "all", label: "Todos" },
+    { value: "promo", label: "Promoções" },
     ...PRODUCT_CATEGORIES.map((category) => ({
       value: category as CategoryFilterValue,
       label: CATEGORY_LABELS[category],

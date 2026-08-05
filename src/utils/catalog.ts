@@ -1,6 +1,6 @@
 import { PRODUCT_CATEGORIES, type ProductCategory } from "@/types/product";
 
-export type CategoryFilter = ProductCategory | "all";
+export type CategoryFilter = ProductCategory | "all" | "promo";
 
 export type ProductSort =
   | "newest"
@@ -20,6 +20,9 @@ export const PRODUCT_SORTS: ProductSort[] = [
 ];
 
 export function parseCategory(value: unknown): CategoryFilter {
+  if (typeof value === "string" && value === "promo") {
+    return "promo";
+  }
   if (
     typeof value === "string" &&
     (PRODUCT_CATEGORIES as readonly string[]).includes(value)
