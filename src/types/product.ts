@@ -60,7 +60,7 @@ export function hasPromo(product: Pick<Product, "promo_price" | "promo_min_qty" 
     product.promo_price != null &&
     product.promo_price >= 0 &&
     product.promo_min_qty != null &&
-    product.promo_min_qty >= 2 &&
+    product.promo_min_qty >= 1 &&
     isPromoStarted(product.promo_starts_at)
   );
 }

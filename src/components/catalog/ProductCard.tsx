@@ -48,9 +48,6 @@ export default function ProductCard({ product }: ProductCardProps) {
             <p className="font-display text-xl tracking-wide text-brand sm:text-2xl">
               {formatBRL(product.promo_price as number)}
             </p>
-            {product.promo_min_qty != null ? (
-              <p className="font-body text-xs text-mist">{product.promo_min_qty}+ unidades</p>
-            ) : null}
           </div>
         ) : (
           <p className="font-display text-xl tracking-wide text-brand sm:text-2xl">

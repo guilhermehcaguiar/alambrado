@@ -1,7 +1,7 @@
 import type { ProductSize } from "@/types/product";
 
 export const PRICES = {
-  torcedor: 119.9,
+  torcedor: 139.9,
   infantil: 149.9,
   jogador: 169.9,
   retro: 199.9,

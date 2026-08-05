@@ -71,15 +71,21 @@ export default function ProductPurchase({ product }: ProductPurchaseProps) {
   }
 
   const promoStarted = isPromoStarted(product.promo_starts_at);
+  const hasQtyRule = product.promo_min_qty != null && product.promo_min_qty > 1;
+  const categoryName = CATEGORY_LABELS[product.category].toLowerCase();
   const promoNote = !promoStarted
     ? product.promo_starts_at
-      ? `Promoção programada: a partir de ${formatDate(product.promo_starts_at)}, leve ${product.promo_min_qty}+ camisas ${CATEGORY_LABELS[product.category].toLowerCase()} por ${formatBRL(product.promo_price as number)} cada.`
+      ? hasQtyRule
+        ? `Promoção programada: a partir de ${formatDate(product.promo_starts_at)}, leve ${product.promo_min_qty}+ camisas ${categoryName} por ${formatBRL(product.promo_price as number)} cada.`
+        : `Promoção programada: a partir de ${formatDate(product.promo_starts_at)}, camisas ${categoryName} por ${formatBRL(product.promo_price as number)}.`
       : null
-    : promoUnit != null && product.promo_min_qty != null
-      ? `Preço promocional de ${formatBRL(product.promo_price as number)} aplicado para ${product.promo_min_qty}+ camisas ${CATEGORY_LABELS[product.category].toLowerCase()}.`
-      : product.promo_price != null && product.promo_min_qty != null
-        ? `Leve ${product.promo_min_qty}+ camisas ${CATEGORY_LABELS[product.category].toLowerCase()} e pague ${formatBRL(product.promo_price)} cada.`
-        : null;
+    : promoUnit != null && hasQtyRule
+      ? `Preço promocional de ${formatBRL(product.promo_price as number)} aplicado para ${product.promo_min_qty}+ camisas ${categoryName}.`
+      : promoUnit != null
+        ? `Promoção de pré-inauguração: camisas ${categoryName} por ${formatBRL(product.promo_price as number)}.`
+        : product.promo_price != null && hasQtyRule
+          ? `Leve ${product.promo_min_qty}+ camisas ${categoryName} e pague ${formatBRL(product.promo_price)} cada.`
+          : null;
 
   return (
     <div className="flex flex-col gap-6">
