@@ -137,7 +137,11 @@ export const getProducts = cache(async (limit?: number): Promise<Product[]> => {
     return [];
   }
 
-  return productSchema.array().parse(data ?? []);
+  const parsed = (data ?? [])
+    .map((item) => productSchema.safeParse(item))
+    .filter((r) => r.success)
+    .map((r) => (r as z.ZodSafeParseSuccess<Product>).data);
+  return parsed;
 });
 
 export const getProductBySlug = cache(
@@ -157,7 +161,8 @@ export const getProductBySlug = cache(
       return null;
     }
 
-    return productSchema.parse(data);
+    const parsed = productSchema.safeParse(data);
+    return parsed.success ? parsed.data : null;
   },
 );
 
@@ -178,7 +183,11 @@ export const getProductsByCategory = cache(
       return [];
     }
 
-    return productSchema.array().parse(data ?? []);
+    const parsed = (data ?? [])
+      .map((item) => productSchema.safeParse(item))
+      .filter((r) => r.success)
+      .map((r) => (r as z.ZodSafeParseSuccess<Product>).data);
+    return parsed;
   },
 );
 
@@ -230,7 +239,10 @@ export const searchProducts = cache(
         return { products: [], total: 0 };
       }
 
-      const parsed = productSchema.array().parse(data ?? []);
+      const parsed = (data ?? [])
+        .map((item) => productSchema.safeParse(item))
+        .filter((r) => r.success)
+        .map((r) => (r as z.ZodSafeParseSuccess<Product>).data);
       const ascending = sort === "season-asc";
       const sortValue = (product: Product) =>
         ascending ? seasonSortValue(product.season) : -seasonSortValue(product.season);
@@ -279,9 +291,14 @@ export const searchProducts = cache(
       return { products: [], total: 0 };
     }
 
+    const parsed = (data ?? [])
+      .map((item) => productSchema.safeParse(item))
+      .filter((r) => r.success)
+      .map((r) => (r as z.ZodSafeParseSuccess<Product>).data);
+
     return {
-      products: productSchema.array().parse(data ?? []),
-      total: count ?? 0,
+      products: parsed,
+      total: count ?? parsed.length,
     };
   },
 );
