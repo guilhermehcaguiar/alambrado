@@ -215,8 +215,9 @@ export const searchProducts = cache(
 
     if (category === "promo") {
       dbQuery = dbQuery
-        .gte("promo_price", 0)
-        .gte("promo_min_qty", 1)
+        .or(
+          `promo_tiers.neq.[],and(promo_price.gte.0,promo_min_qty.gte.1)`,
+        )
         .or(`promo_starts_at.is.null,promo_starts_at.lte.${todayIso}`);
     } else if (category !== "all") {
       dbQuery = dbQuery.eq("category", category);

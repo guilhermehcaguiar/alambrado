@@ -101,3 +101,13 @@ export function getPromoUnitPrice(
   }
   return promo.promoPrice!;
 }
+
+export function getPromoDisplayPrice(promo: PromoConfig): number | null {
+  if (!isPromoActive(promo)) {
+    return null;
+  }
+  if (promo.promoTiers && promo.promoTiers.length > 0) {
+    return Math.min(...promo.promoTiers.map((tier) => tier.price));
+  }
+  return promo.promoPrice ?? null;
+}

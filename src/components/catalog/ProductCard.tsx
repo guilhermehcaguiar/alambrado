@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Shirt } from "lucide-react";
 import { formatBRL } from "@/utils/format";
+import { getPromoDisplayPrice } from "@/config/prices";
 import { CATEGORY_LABELS, hasPromo, type Product } from "@/types/product";
 import Badge from "@/components/ui/Badge";
 
@@ -11,6 +12,14 @@ type ProductCardProps = {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const promo = hasPromo(product);
+  const promoPrice = promo
+    ? getPromoDisplayPrice({
+        promoPrice: product.promo_price,
+        promoMinQty: product.promo_min_qty,
+        promoStartsAt: product.promo_starts_at,
+        promoTiers: product.promo_tiers,
+      })
+    : null;
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-ash bg-graphite transition-colors duration-200 hover:border-brand/60">
       <div className="relative aspect-square w-full overflow-hidden bg-coal">
@@ -42,11 +51,11 @@ export default function ProductCard({ product }: ProductCardProps) {
           {product.club}
           {product.season ? ` · ${product.season}` : ""}
         </p>
-        {promo ? (
+        {promo && promoPrice != null ? (
           <div className="flex flex-wrap items-baseline gap-2">
             <p className="font-body text-sm text-mist line-through">{formatBRL(product.price)}</p>
             <p className="font-display text-xl tracking-wide text-brand sm:text-2xl">
-              {formatBRL(product.promo_price as number)}
+              {formatBRL(promoPrice)}
             </p>
           </div>
         ) : (
