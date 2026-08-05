@@ -38,7 +38,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           </div>
         )}
         <div className="absolute left-3 top-3 flex flex-col items-start gap-1.5">
-          <Badge variant="solid">{CATEGORY_LABELS[product.category]}</Badge>
+          <Badge category={product.category}>{CATEGORY_LABELS[product.category]}</Badge>
           {promo ? <Badge variant="promo">Promoção</Badge> : null}
         </div>
       </div>

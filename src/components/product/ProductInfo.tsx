@@ -19,7 +19,7 @@ export default function ProductInfo({
   return (
     <div>
       <div className="flex flex-wrap items-center gap-2">
-        <Badge variant="solid">{CATEGORY_LABELS[category]}</Badge>
+        <Badge category={category}>{CATEGORY_LABELS[category]}</Badge>
         <Badge variant="promo">Promocional</Badge>
         {league ? <Badge variant="neutral">{league}</Badge> : null}
       </div>
