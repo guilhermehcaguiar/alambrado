@@ -481,6 +481,7 @@ export type GeneratedCsvRow = {
   promo_price?: number | null;
   promo_min_qty?: number | null;
   promo_starts_at?: string | null;
+  promo_note?: string | null;
   image_filename: string;
   featured: boolean;
   available: boolean;
