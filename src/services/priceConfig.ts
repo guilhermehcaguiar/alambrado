@@ -22,8 +22,14 @@ export const getPriceExtras = cache(async (): Promise<PriceExtras> => {
       .select("value")
       .eq("key", "extras")
       .maybeSingle();
-    if (error || !data?.value) return DEFAULT_EXTRAS;
-    return { ...DEFAULT_EXTRAS, ...(data.value as Partial<PriceExtras>) };
+    if (error || !data || !data.value) return DEFAULT_EXTRAS;
+    const raw = data.value as Partial<PriceExtras>;
+    return {
+      oversizedSizes: Array.isArray(raw.oversizedSizes) ? raw.oversizedSizes.filter((s) => typeof s === "string") : DEFAULT_EXTRAS.oversizedSizes,
+      oversizedSurcharge: typeof raw.oversizedSurcharge === "number" ? raw.oversizedSurcharge : DEFAULT_EXTRAS.oversizedSurcharge,
+      personalizationPrice: typeof raw.personalizationPrice === "number" ? raw.personalizationPrice : DEFAULT_EXTRAS.personalizationPrice,
+      patchPrice: typeof raw.patchPrice === "number" ? raw.patchPrice : DEFAULT_EXTRAS.patchPrice,
+    };
   } catch {
     return DEFAULT_EXTRAS;
   }
