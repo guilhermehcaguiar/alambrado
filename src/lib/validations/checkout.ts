@@ -20,6 +20,14 @@ export const checkoutItemInputSchema = z
       .int("Quantidade deve ser um número inteiro.")
       .min(1, "Quantidade mínima é 1.")
       .max(MAX_CART_ITEM_QUANTITY, "Quantidade máxima por item é 10."),
+    personalization: z
+      .object({
+        enabled: z.boolean().optional(),
+        name: z.string().trim().max(40).optional(),
+        number: z.string().trim().max(3).optional(),
+      })
+      .strict()
+      .optional(),
   })
   .strict();
 

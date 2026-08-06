@@ -15,7 +15,11 @@ export function mergeCheckoutItems(items: CheckoutItemInput[]): CheckoutItemInpu
   const merged = new Map<string, CheckoutItemInput>();
 
   for (const item of items) {
-    const key = `${item.productId}:${item.size}`;
+    const pers =
+      item.personalization?.enabled && Boolean(item.personalization.name || item.personalization.number)
+        ? `:p:${item.personalization.name ?? ""}:${item.personalization.number ?? ""}`
+        : "";
+    const key = `${item.productId}:${item.size}${pers}`;
     const existing = merged.get(key);
     if (existing) {
       existing.quantity = Math.min(
@@ -71,7 +75,16 @@ export function formatCheckoutMessage(
     lines.push(`Modelo: ${formatCategoryLabel(item.category)}`);
     lines.push(`Tamanho: ${item.size}`);
     lines.push(`Quantidade: ${item.quantity}`);
-    lines.push("Personalização: indisponível neste lançamento");
+    if (item.personalization) {
+      const parts = [item.personalization.name, item.personalization.number]
+        .filter(Boolean)
+        .join(" - ");
+      lines.push(
+        parts
+          ? `Personalização: ${parts}${item.personalization.price > 0 ? ` (+${formatBRL(item.personalization.price)})` : ""}`
+          : "Personalização: incluir",
+      );
+    }
     lines.push("Patch: indisponível neste lançamento");
     lines.push(`Valor unitário: ${formatBRL(item.unitPrice)}`);
     lines.push(`Subtotal: ${formatBRL(item.subtotal)}`);

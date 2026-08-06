@@ -115,6 +115,13 @@ export default function WhatsAppCheckoutModal({
         productId: item.productId,
         size: item.size,
         quantity: item.quantity,
+        personalization: item.personalization.enabled
+          ? {
+              enabled: true,
+              name: item.personalization.name || undefined,
+              number: item.personalization.number || undefined,
+            }
+          : undefined,
       })),
     };
   }

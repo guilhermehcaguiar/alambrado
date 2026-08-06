@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Shirt, Trash2 } from "lucide-react";
+import { Shirt, Sparkles, Trash2 } from "lucide-react";
 import Badge from "@/components/ui/Badge";
 import CartQuantityControl from "@/components/cart/CartQuantityControl";
 import { useCart } from "@/hooks/useCart";
@@ -53,6 +53,18 @@ export default function CartItemCard({ item }: CartItemCardProps) {
             <Badge variant="neutral" className="mt-2">
               {CATEGORY_LABELS[item.category]}
             </Badge>
+            {item.personalization.enabled ? (
+              <p className="mt-2 inline-flex items-center gap-1.5 rounded-md bg-violet-400/15 px-2 py-1 font-body text-xs font-semibold text-violet-300">
+                <Sparkles className="size-3.5" aria-hidden="true" />
+                Personalização{" "}
+                {[item.personalization.name, item.personalization.number]
+                  .filter(Boolean)
+                  .join(" · ") || ""}
+                {item.personalization.price > 0
+                  ? ` (+${formatBRL(item.personalization.price)})`
+                  : ""}
+              </p>
+            ) : null}
           </div>
           <button
             type="button"

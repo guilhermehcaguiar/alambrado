@@ -4,10 +4,10 @@ import { PRODUCT_CATEGORIES, PRODUCT_SIZES, type ProductCategory, type ProductSi
 export const MAX_CART_ITEM_QUANTITY = 10;
 
 export type CartPersonalization = {
-  enabled: false;
-  name?: never;
-  number?: never;
-  price: 0;
+  enabled: boolean;
+  name?: string;
+  number?: string;
+  price: number;
 };
 
 export type CartPatch = {
@@ -39,8 +39,10 @@ export type CartItem = {
 };
 
 const personalizationSchema = z.object({
-  enabled: z.literal(false),
-  price: z.literal(0),
+  enabled: z.boolean(),
+  name: z.string().max(40).optional(),
+  number: z.string().max(3).optional(),
+  price: z.number().min(0),
 });
 
 const patchSchema = z.object({

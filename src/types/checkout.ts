@@ -4,6 +4,11 @@ export type CheckoutItemInput = {
   productId: string;
   size: ProductSize;
   quantity: number;
+  personalization?: {
+    enabled?: boolean;
+    name?: string;
+    number?: string;
+  } | null;
 };
 
 export type WhatsAppCheckoutInput = {
@@ -22,6 +27,11 @@ export type CheckoutResolvedItem = {
   quantity: number;
   unitPrice: number;
   subtotal: number;
+  personalization?: {
+    name?: string;
+    number?: string;
+    price: number;
+  } | null;
 };
 
 export type WhatsAppCheckoutResponse = {

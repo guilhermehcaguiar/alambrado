@@ -25,6 +25,8 @@ export const CHECKOUT_ERROR_STATUS = {
 
 export type CheckoutErrorCode = keyof typeof CHECKOUT_ERROR_STATUS;
 
+const DEFAULT_PERSONALIZATION_PRICE = 0;
+
 export class CheckoutError extends Error {
   constructor(
     public readonly code: CheckoutErrorCode,
@@ -93,6 +95,27 @@ async function fetchAvailableProductsByIds(ids: string[]): Promise<Map<string, R
   return products;
 }
 
+async function fetchPriceConfig(): Promise<{ personalizationPrice: number }> {
+  if (!isSupabaseConfigured()) {
+    return { personalizationPrice: DEFAULT_PERSONALIZATION_PRICE };
+  }
+  try {
+    const { data } = await getSupabaseServerClient()
+      .from("price_config")
+      .select("value")
+      .eq("key", "extras")
+      .maybeSingle();
+    const raw = data?.value as { personalizationPrice?: unknown } | null | undefined;
+    const price =
+      typeof raw?.personalizationPrice === "number"
+        ? raw.personalizationPrice
+        : DEFAULT_PERSONALIZATION_PRICE;
+    return { personalizationPrice: price };
+  } catch {
+    return { personalizationPrice: DEFAULT_PERSONALIZATION_PRICE };
+  }
+}
+
 export async function resolveWhatsAppCheckout(
   input: WhatsAppCheckoutInput,
 ): Promise<WhatsAppCheckoutResponse> {
@@ -109,6 +132,8 @@ export async function resolveWhatsAppCheckout(
     );
   }
 
+  const [{ personalizationPrice }] = await Promise.all([fetchPriceConfig()]);
+
   const resolvedItems: CheckoutResolvedItem[] = mergedItems.map((item) => {
     const product = products.get(item.productId);
 
@@ -124,7 +149,10 @@ export async function resolveWhatsAppCheckout(
       promoMinQty: product.promo_min_qty,
     });
     const baseUnit = promoUnit != null ? promoUnit : product.price;
-    const unitPrice = computePriceForSize(baseUnit, item.size);
+    const sizePrice = computePriceForSize(baseUnit, item.size);
+    const personalizationEnabled = Boolean(item.personalization?.enabled);
+    const persPrice = personalizationEnabled ? personalizationPrice : 0;
+    const unitPrice = sizePrice + persPrice;
 
     return {
       productId: product.id,
@@ -137,6 +165,13 @@ export async function resolveWhatsAppCheckout(
       quantity: item.quantity,
       unitPrice,
       subtotal: computeItemSubtotal(unitPrice, item.quantity),
+      personalization: personalizationEnabled
+        ? {
+            name: item.personalization?.name || undefined,
+            number: item.personalization?.number || undefined,
+            price: persPrice,
+          }
+        : null,
     };
   });
 

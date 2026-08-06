@@ -2,13 +2,30 @@ import { MAX_CART_ITEM_QUANTITY, type CartItem } from "@/types/cart";
 import type { ProductSize } from "@/types/product";
 import { getPromoUnitPrice } from "@/config/prices";
 
-export function createCartItemId(productId: string, size: ProductSize): string {
-  return `${productId}:${size}`;
+function personalizationSuffix(personalization?: CartItem["personalization"]): string {
+  if (!personalization?.enabled) {
+    return "";
+  }
+  const name = personalization.name?.trim() || "";
+  const number = personalization.number?.trim() || "";
+  if (!name && !number) {
+    return ":p";
+  }
+  return `:p-${name.toLowerCase()}-${number}`;
+}
+
+export function createCartItemId(
+  productId: string,
+  size: ProductSize,
+  personalization?: CartItem["personalization"],
+): string {
+  return `${productId}:${size}${personalizationSuffix(personalization)}`;
 }
 
 export function computeUnitPrice(price: number, size: ProductSize, item: CartItem): number {
   const surcharge = item.oversizedSizes.includes(size) ? item.oversizedSurcharge : 0;
-  return price + surcharge;
+  const personalization = item.personalization.enabled ? item.personalization.price : 0;
+  return price + surcharge + personalization;
 }
 
 export function getCategoryQuantities(items: CartItem[]): Record<string, number> {
@@ -85,7 +102,7 @@ export function updateSizeById(
   if (!current) {
     return items;
   }
-  const nextId = createCartItemId(current.productId, size);
+  const nextId = createCartItemId(current.productId, size, current.personalization);
   if (nextId === current.id) {
     return items;
   }

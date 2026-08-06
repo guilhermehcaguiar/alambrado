@@ -21,6 +21,14 @@ export default function CheckoutOrderSummary({ items, total }: CheckoutOrderSumm
               <p className="mt-0.5 text-xs text-mist">
                 Tamanho {item.size} · {item.quantity}x · {formatBRL(getItemUnitPrice(item, categoryQuantities))}
               </p>
+              {item.personalization.enabled ? (
+                <p className="mt-0.5 text-xs font-semibold text-violet-300">
+                  Personalização:{" "}
+                  {[item.personalization.name, item.personalization.number]
+                    .filter(Boolean)
+                    .join(" - ") || "incluir"}
+                </p>
+              ) : null}
             </div>
             <span className="shrink-0 text-paper">
               {formatBRL(getItemSubtotal(item, categoryQuantities))}
