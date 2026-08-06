@@ -103,6 +103,16 @@ export default function CartItemCard({ item }: CartItemCardProps) {
               Unitário: {formatBRL(unitPrice)}
               {promoActive ? " (promoção)" : ""}
             </p>
+            <p className="mt-1 space-y-0.5 text-left font-body text-[11px] leading-tight text-mist">
+              {item.oversizedSizes.includes(item.size) && item.oversizedSurcharge > 0 ? (
+                <span className="block">Acréscimo tam. extra: {formatBRL(item.oversizedSurcharge)}</span>
+              ) : null}
+              {item.personalization.enabled && item.personalization.price > 0 ? (
+                <span className="block">
+                  Personalização: {formatBRL(item.personalization.price)}
+                </span>
+              ) : null}
+            </p>
             <p className="font-display text-xl tracking-wide text-brand">
               {formatBRL(subtotal)}
             </p>
