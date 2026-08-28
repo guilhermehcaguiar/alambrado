@@ -65,7 +65,7 @@ const DIFFERENTIALS = [
   },
   {
     icon: Truck,
-    title: "Prazo 20 a 30 dias úteis",
+    title: "Prazo 15 a 20 dias úteis",
     text: "Produzido sob demanda e enviado com cuidado.",
   },
 ] as const;

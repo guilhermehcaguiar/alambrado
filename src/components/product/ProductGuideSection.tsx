@@ -3,7 +3,7 @@ import { Truck, ShieldCheck, BadgeCheck, Sparkles } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
 
 const IMPORTANT_INFO = [
-  { icon: Truck, label: "Entrega", value: "20 a 30 dias úteis" },
+  { icon: Truck, label: "Entrega", value: "15 a 20 dias úteis" },
   { icon: ShieldCheck, label: "Qualidade", value: "Tailandesa 1:1" },
   { icon: BadgeCheck, label: "Patch", value: "Em breve" },
   { icon: Sparkles, label: "Personalização", value: "Em breve" },

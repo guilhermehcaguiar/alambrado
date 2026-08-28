@@ -38,7 +38,7 @@ export default function CartSummary({ onCheckout }: CartSummaryProps) {
       <div className="mt-5 flex items-center gap-3 rounded-lg border border-ash bg-coal px-4 py-3">
         <Truck className="size-5 shrink-0 text-brand" aria-hidden="true" />
         <p className="font-body text-sm text-mist">
-          Prazo estimado: <strong className="text-paper">20 a 30 dias úteis</strong>
+          Prazo estimado: <strong className="text-paper">15 a 20 dias úteis</strong>
         </p>
       </div>
 

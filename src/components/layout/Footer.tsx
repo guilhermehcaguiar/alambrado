@@ -90,7 +90,7 @@ export default function Footer() {
               </li>
               <li>
                 Prazo de entrega:{" "}
-                <strong className="text-paper">20 a 30 dias úteis</strong>.
+                <strong className="text-paper">15 a 20 dias úteis</strong>.
               </li>
             </ul>
           </div>
