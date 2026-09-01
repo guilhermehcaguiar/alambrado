@@ -44,25 +44,27 @@ export default function ProductCard({ product }: ProductCardProps) {
       </div>
 
       <div className="flex flex-1 flex-col gap-2 p-3 sm:p-4">
-        <h3 className="line-clamp-2 font-display text-xl uppercase leading-tight tracking-wide text-paper sm:text-2xl">
-          {product.name}
-        </h3>
-        <p className="truncate font-body text-sm text-mist">
-          {product.club}
-          {product.season ? ` · ${product.season}` : ""}
-        </p>
-        {promo && promoPrice != null ? (
-          <div className="flex flex-wrap items-baseline gap-2">
-            <p className="font-body text-sm text-mist line-through">{formatBRL(product.price)}</p>
-            <p className="font-display text-xl tracking-wide text-brand sm:text-2xl">
-              {formatBRL(promoPrice)}
-            </p>
-          </div>
-        ) : (
-          <p className="font-display text-xl tracking-wide text-brand sm:text-2xl">
-            {formatBRL(product.price)}
+        <div className="flex-1 flex flex-col gap-2">
+          <h3 className="line-clamp-2 font-display text-xl uppercase leading-tight tracking-wide text-paper sm:text-2xl">
+            {product.name}
+          </h3>
+          <p className="truncate font-body text-sm text-mist">
+            {product.club}
+            {product.season ? ` · ${product.season}` : ""}
           </p>
-        )}
+          {promo && promoPrice != null ? (
+            <div className="flex flex-wrap items-baseline gap-2">
+              <p className="font-body text-sm text-mist line-through">{formatBRL(product.price)}</p>
+              <p className="font-display text-xl tracking-wide text-brand sm:text-2xl">
+                {formatBRL(promoPrice)}
+              </p>
+            </div>
+          ) : (
+            <p className="font-display text-xl tracking-wide text-brand sm:text-2xl">
+              {formatBRL(product.price)}
+            </p>
+          )}
+        </div>
         <Link
           href={`/produto/${product.slug}`}
           className="mt-2 inline-flex min-h-11 w-full items-center justify-center rounded-md border border-brand/60 px-4 py-2 font-body text-sm font-semibold text-brand transition-colors duration-200 hover:bg-brand hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
