@@ -45,18 +45,15 @@ export default function ProductCard({ product }: ProductCardProps) {
 
 <div className="flex flex-1 flex-col gap-2 p-3 sm:p-4">
         <div className="flex-1 flex flex-col gap-2">
-          <div className="h-[2.5rem] overflow-hidden">
-            <h3 className="line-clamp-2 font-display text-xl uppercase leading-tight tracking-wide text-paper sm:text-2xl h-full">
-              {product.name}
-            </h3>
-          </div>
-          <div className="h-5">
-            <p className="truncate font-body text-sm text-mist h-full">
-              {product.club}
-              {product.season ? ` · ${product.season}` : ""}
-            </p>
-          </div>
-          <div className="h-[2.5rem] flex items-end">
+          <h3 className="line-clamp-2 font-display text-xl uppercase leading-tight tracking-wide text-paper sm:text-2xl">
+            {product.name}
+          </h3>
+          <p className="truncate font-body text-sm text-mist h-5">
+            {product.club}
+            {product.season ? ` · ${product.season}` : ""}
+          </p>
+          <div className="flex-1" />
+          <div className="min-h-[2.5rem] flex items-end">
             {promo && promoPrice != null ? (
               <div className="flex flex-wrap items-baseline gap-2 w-full">
                 <p className="font-body text-sm text-mist line-through">{formatBRL(product.price)}</p>
