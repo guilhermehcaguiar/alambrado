@@ -48,24 +48,26 @@ export default function ProductCard({ product }: ProductCardProps) {
           <h3 className="line-clamp-2 font-display text-xl uppercase leading-tight tracking-wide text-paper sm:text-2xl">
             {product.name}
           </h3>
-          <p className="truncate font-body text-sm text-mist h-5">
-            {product.club}
-            {product.season ? ` · ${product.season}` : ""}
-          </p>
           <div className="flex-1" />
-          <div className="min-h-[2.5rem] flex items-end">
-            {promo && promoPrice != null ? (
-              <div className="flex flex-wrap items-baseline gap-2 w-full">
-                <p className="font-body text-sm text-mist line-through">{formatBRL(product.price)}</p>
+          <div className="flex flex-col gap-1.5">
+            <p className="truncate font-body text-sm text-mist h-5">
+              {product.club}
+              {product.season ? ` · ${product.season}` : ""}
+            </p>
+            <div className="min-h-[2.5rem] flex items-end">
+              {promo && promoPrice != null ? (
+                <div className="flex flex-wrap items-baseline gap-2 w-full">
+                  <p className="font-body text-sm text-mist line-through">{formatBRL(product.price)}</p>
+                  <p className="font-display text-xl tracking-wide text-brand sm:text-2xl">
+                    {formatBRL(promoPrice)}
+                  </p>
+                </div>
+              ) : (
                 <p className="font-display text-xl tracking-wide text-brand sm:text-2xl">
-                  {formatBRL(promoPrice)}
+                  {formatBRL(product.price)}
                 </p>
-              </div>
-            ) : (
-              <p className="font-display text-xl tracking-wide text-brand sm:text-2xl">
-                {formatBRL(product.price)}
-              </p>
-            )}
+              )}
+            </div>
           </div>
         </div>
         <Link
