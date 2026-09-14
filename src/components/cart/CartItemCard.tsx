@@ -21,6 +21,8 @@ export default function CartItemCard({ item }: CartItemCardProps) {
   const unitPrice = getItemUnitPrice(item, categoryQuantities);
   const promoActive =
     item.promoPrice != null && item.promoMinQty != null && (categoryQuantities[item.category] ?? 0) >= item.promoMinQty;
+  const originalUnitPrice = item.unitPrice;
+  const promoDiscount = promoActive && originalUnitPrice > unitPrice ? originalUnitPrice - unitPrice : 0;
 
   return (
     <li className="flex gap-4 rounded-xl border border-ash bg-graphite p-4 sm:gap-5">
@@ -100,10 +102,22 @@ export default function CartItemCard({ item }: CartItemCardProps) {
 
           <div className="ml-auto text-right">
             <p className="font-body text-xs text-mist">
-              Unitário: {formatBRL(unitPrice)}
-              {promoActive ? " (promoção)" : ""}
+              Unitário:
+              {promoActive ? (
+                <>
+                  <span className="line-through text-mist mr-2">{formatBRL(originalUnitPrice)}</span>
+                  <span className="text-brand">{formatBRL(unitPrice)}</span>
+                </>
+              ) : (
+                formatBRL(unitPrice)
+              )}
             </p>
             <p className="mt-1 space-y-0.5 text-left font-body text-[11px] leading-tight text-mist">
+              {promoActive && promoDiscount > 0 && (
+                <span className="block text-brand text-xs">
+                  Desconto promoção: -{formatBRL(promoDiscount)} / un
+                </span>
+              )}
               {item.oversizedSizes.includes(item.size) && item.oversizedSurcharge > 0 ? (
                 <span className="block">Acréscimo tam. extra: {formatBRL(item.oversizedSurcharge)}</span>
               ) : null}

@@ -56,10 +56,16 @@ export default function ProductCard({ product }: ProductCardProps) {
             </p>
             <div className="min-h-[2.5rem] flex items-end">
               {promo && promoPrice != null ? (
-                <div className="flex flex-wrap items-baseline gap-2 w-full">
-                  <p className="font-body text-sm text-mist line-through">{formatBRL(product.price)}</p>
+                <div className="flex flex-col gap-1 w-full">
                   <p className="font-display text-xl tracking-wide text-brand sm:text-2xl">
-                    {formatBRL(promoPrice)}
+                    {formatBRL(product.price)}
+                  </p>
+                  <p className="font-body text-xs text-brand/80">
+                    {product.promo_tiers && product.promo_tiers.length > 0
+                      ? product.promo_tiers
+                          .map((t) => `\u2265${t.minQty} un: ${formatBRL(t.price)}`)
+                          .join(" | ")
+                      : `A partir de ${product.promo_min_qty} un: ${formatBRL(promoPrice)}`}
                   </p>
                 </div>
               ) : (
