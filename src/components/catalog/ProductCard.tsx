@@ -2,9 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { Shirt } from "lucide-react";
 import { formatBRL } from "@/utils/format";
-import { getPromoDisplayPrice } from "@/config/prices";
 import { CATEGORY_LABELS, hasPromo, type Product } from "@/types/product";
 import Badge from "@/components/ui/Badge";
+import { getPromoDisplayText } from "@/utils/promoText";
 
 type ProductCardProps = {
   product: Product;
@@ -12,14 +12,7 @@ type ProductCardProps = {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const promo = hasPromo(product);
-  const promoPrice = promo
-    ? getPromoDisplayPrice({
-        promoPrice: product.promo_price,
-        promoMinQty: product.promo_min_qty,
-        promoStartsAt: product.promo_starts_at,
-        promoTiers: product.promo_tiers,
-      })
-    : null;
+  const promoText = promo ? getPromoDisplayText(product) : null;
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-ash bg-graphite transition-colors duration-200 hover:border-brand/60">
       <div className="relative aspect-square w-full overflow-hidden bg-coal">
@@ -55,18 +48,12 @@ export default function ProductCard({ product }: ProductCardProps) {
               {product.season ? ` · ${product.season}` : ""}
             </p>
             <div className="min-h-[2.5rem] flex items-end">
-              {promo && promoPrice != null ? (
+              {promo && promoText ? (
                 <div className="flex flex-col gap-1 w-full">
                   <p className="font-display text-xl tracking-wide text-brand sm:text-2xl">
                     {formatBRL(product.price)}
                   </p>
-                  <p className="font-body text-xs text-brand/80">
-                    {product.promo_tiers && product.promo_tiers.length > 0
-                      ? product.promo_tiers
-                          .map((t) => `\u2265${t.minQty} un: ${formatBRL(t.price)}`)
-                          .join(" | ")
-                      : `A partir de ${product.promo_min_qty} un: ${formatBRL(promoPrice)}`}
-                  </p>
+                  <p className="font-body text-xs text-brand/80">{promoText}</p>
                 </div>
               ) : (
                 <p className="font-display text-xl tracking-wide text-brand sm:text-2xl">
